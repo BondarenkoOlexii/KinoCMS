@@ -1,0 +1,25 @@
+.container {
+  max-width: 960px;
+}
+.btn-create {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
+
+.btn-create:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-create:active {
+    transform: translateY(0);
+}

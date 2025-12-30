@@ -1,19 +1,25 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
-from src.common.models import SeoBlock, Image
-
+from src.common.models import SeoBlock, ThourghtImage, Image
+from src.adminpanel.models.BannerChoise import TypeBanner, DropBox
+from src.adminpanel.models.TypeRoomPage import TypeRoom
 # Create your models here.
+
+#-----------------------------------------------------------------------------------------
+class PageThourghtImage(ThourghtImage):
+    images_info = models.ForeignKey('Page', on_delete=models.CASCADE)
+class ContactThourghtImage(ThourghtImage):
+    images_info = models.ForeignKey('Contacts', on_delete=models.CASCADE)
+class BannerThourghtImage(ThourghtImage):
+    images_info = models.ForeignKey('Banner', on_delete=models.CASCADE)
+class BackBannerThourghtImage(ThourghtImage):
+    images_info = models.ForeignKey('BackgroundBanner', on_delete=models.CASCADE)
+#-----------------------------------------------------------------------------------------
+
 class Page(models.Model):
-    class TypeRoom(models.TextChoices):
-        vip = 'vip', 'VIP'
-        child_room = 'child', 'ChildRoom'
-        cafe = 'cafe', 'Cafe'
-        description = 'description', 'Description'
-
-
     name = models.CharField(max_length=20)
     description = models.TextField()
-    image = GenericRelation(Image)
+    image = models.ManyToManyField(Image, through=PageThourghtImage)
     type = models.CharField(max_length=20, choices=TypeRoom.choices)
     seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
 
@@ -27,5 +33,20 @@ class Contacts(models.Model):
     name = models.CharField(225)
     adress = models.TextField()
     coordinate = models.TextField()
-    image = GenericRelation(Image)
+    image = models.ManyToManyField(Image, through=ContactThourghtImage)
     seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
+
+#Banner --------------------------------------------------------------------------------------
+class Banner(models.Model):
+    type = models.CharField(max_length=10, choices=TypeBanner.choices)
+    url = models.URLField()
+    text = models.TextField(null=True)
+    speed_button = models.CharField(max_length=10, choices=DropBox.choices)
+    image = models.ManyToManyField(Image, through=BannerThourghtImage)
+    active = models.BooleanField()
+
+
+class BackgroundBanner(models.Model):
+    is_image = models.BooleanField()
+    image = models.ManyToManyField(Image, through=BackBannerThourghtImage)
+    background_color = models.CharField(max_length=10)

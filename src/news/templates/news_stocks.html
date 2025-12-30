@@ -1,0 +1,91 @@
+{% extends 'custom_admin/theme.html' %}
+{% load static %}
+
+{% block content1 %}
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="mb-0">Створення</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row g-4 justify-content-center"> <div class="col-md-8 col-lg-7">
+                    <div class="card card-primary card-outline mb-4">
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+    <!--                                    <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+                                        <h2 class="card-title w-100" >Форма для створення {% include 'custom_admin/switch.html' %}</h2>
+                                    </div>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Name</label>
+                                        {{ news_form.name }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Description</label>
+                                        <div class="input-group has-validation">
+                                            {{news_form.description}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">URL</label>
+                                        {{news_form.trailer}}
+                                    </div>
+
+                                    <div class="gallery">
+                                        <h3> ФОТО </h3>
+                                        {{image_formset.management_form}}
+                                        {% for form in image_formset %}
+                                            <div>
+                                                {{form.image}} {{form.image_type}}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="form-label">SEOBLOCK</p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">URL</label>
+                                        {{ seo_form.url }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Title</label>
+                                        {{ seo_form.title }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Keyword</label>
+                                        {{ seo_form.keyword }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Description</label>
+                                        <div class="input-group has-validation">
+                                            {{seo_form.description}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4" />
+
+                                <button class="w-100 btn btn-primary btn-lg" type="submit">Зберегти</button>
+                            </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+{% endblock %}

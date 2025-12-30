@@ -1,0 +1,55 @@
+.switch {                    /* Загальний стиль кнопки*/
+    display: inline-block;
+    border-radius: 15%;
+    position: relative;
+    width: 60px;
+    height: 28px;
+    background-color: #e7e7e7;
+    float: right;
+}
+.switch__input {
+    width: 0px;
+    height: 0 px;
+}
+
+.switch__slides {
+    position: absolute;
+    cursor: pointer;
+    border_radius: 50%;
+    transition: .4s;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.switch__slides::before {
+    content: "";
+    position: absolute;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    top: 1px;
+    right: 0;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.switch__input:focus + .switch__slides { /* НЕ ПРАЦЮЄ ПО ПРИЧИНІ У CSS ВІДПУСТКА */
+    box-shadow: 0 0 1px #570095;
+}
+
+.switch__input:checked + .switch__slides {  /* НЕ ПРАЦЮЄ ПО ПРИЧИНІ ЛІНЬ*/
+    background-color: #570095;
+}
+
+.switch__input:checked + .switch__slides::before {
+    transform: translate(26px);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    background-color: #487efb;
+}
+
+.switch__slides.round {
+    border-radius: 34px;
+    background-color: #570095;
+}

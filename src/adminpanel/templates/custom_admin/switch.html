@@ -1,0 +1,10 @@
+{% load static %}
+
+{% block content_switch %}
+  <container>
+    <label class="switch">
+      {{news_form.is_active}}
+      <span class="switch__slides"></span>
+    </label>
+  </container>
+{% endblock %}
