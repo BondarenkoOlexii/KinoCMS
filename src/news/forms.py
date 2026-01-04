@@ -36,7 +36,7 @@ class SeoForm(forms.ModelForm):
 class ImageForm(forms.ModelForm):
     image = forms.ImageField(
         required=False,
-        widget=forms.FileInput,
+        widget=forms.FileInput(attrs={'type': "file", 'class': 'upload_img'}),
         label="Фотографія"
     )
 
