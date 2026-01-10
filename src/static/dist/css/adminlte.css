@@ -1871,6 +1871,8 @@ progress {
   margin-bottom: 1rem;
   vertical-align: top;
   border-color: var(--bs-table-border-color);
+  border: 1px solid black;
+  border-spacing: 5px;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -2029,6 +2031,9 @@ progress {
   color: var(--bs-table-color);
   border-color: var(--bs-table-border-color);
 }
+
+
+
 
 .table-dark {
   --bs-table-color: #fff;

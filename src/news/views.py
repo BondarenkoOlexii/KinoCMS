@@ -44,6 +44,7 @@ def news_stocks(request):
         else:
             print(f"Ошибка NewsForm:\n{form.errors.as_text()}")
             print(f"Ошибка SEOForm:\n{seoform.errors.as_text()}")
+            print(f"Ошибка ImageFormset:\n {image_formset.errors.as_text()}")
     else:
         form = NewsForm(prefix='news_stocks')
         seoform = SeoForm(prefix='seo')
@@ -67,12 +68,16 @@ def table_news_delete(request, pk):
     delete_item = NewsStockModel.objects.get(id=pk)
     delete_item_seo = SeoBlock.objects.get(newsstockmodel=delete_item)
 
-    images_item = NewsThourghtImage.objects.get(images_info=delete_item)
-    delete_image_item = Image.objects.get(id=images_item.image_id)
+    thourd_images = NewsThourghtImage.objects.filter(images_info=delete_item)
 
-    delete_item.delete()
+    for item in thourd_images:
+        Image.objects.filter(id=item.image_id).delete()
+
+
     delete_item_seo.delete()
-    delete_image_item.delete()
+    thourd_images.delete()
+    delete_item.delete()
+
 
     return redirect('table_news_stocks')
 
@@ -84,7 +89,7 @@ def update_news(request, pk):
 
         form = NewsForm(request.POST, instance=item, prefix='news_stocks')
         seoform = SeoForm(request.POST, instance=seo_item, prefix='seo')
-        image_formset = NewsImagesFormSet(request, request.FILES, instance=item, prefix="image")
+        image_formset = NewsImagesFormSet(request.POST, request.FILES, instance=item, prefix="image")
 
         if form.is_valid() and seoform.is_valid() and image_formset.is_valid():
             seoform_instance = seoform.save()
@@ -92,19 +97,43 @@ def update_news(request, pk):
             form_instance.seoblock = seoform_instance
             form_instance.save()
 
+            for form in image_formset.forms:
+                if form.cleaned_data.get('DELETE'):
+                    obj = form.instance
+                    if obj.pk:
+                        if obj.image:
+                            obj.image.delete()
+                        obj.delete()
+
+
             for form in image_formset:
-                image = form.cleaned_data.get('image')
-                update_image = Image.objects.update(photo=image)
 
-                thourght_form = form.instance
+                if not form.has_changed():                           # Перевіряємо чи трогав щось користувач в формсеті
+                        continue                                     # Пропускаємо ітерацію якщо нічого не трогав
+                image_file = form.cleaned_data.get('image')          # Якщо, все ж падло щось потрогало то достаємо картінку і тримаємо її
 
-                thourght_form.image = update_image
-                thourght_form.images_info = form_instance
+                if image_file:                                        # Перевіряємо чи картінка не пуста
 
-                thourght_form.save()
+                    if not form.instance.image_id:                   # Якщо вона не пуста і користувач ДОДАВ картинку
+                        update_image = Image.objects.create(photo=image_file)                      # Записуємо цю картинку в Image і тримаємо її id
+
+                    else:                                                       # Якщо оказалось що він просто змінив стару картінку
+                        form.instance.image.photo = image_file                                                     # Міняємо картінку  на нову
+
+                        form.instance.image.save()                        # Зберігаємо цю картінку
+
+                        update_image = form.instance.image
+
+                    thourgh_form = form.instance
+
+                    thourgh_form.image = update_image
+
+                    thourgh_form.image_info = form_instance
+
+                    thourgh_form.save()
 
             return redirect('table_news_stocks')
-    else:
+    if request.method == 'GET':
         form = NewsForm(instance=item, prefix='news_stocks')
         seoform = SeoForm(instance=seo_item, prefix='seo')
         image_formset = NewsImagesFormSet(instance=item, prefix="image")

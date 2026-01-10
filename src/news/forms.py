@@ -1,8 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory
 
-from src.news.models import NewsStockModel, SeoBlock, Image, NewsThourghtImage
-from src.common.models import ThourghtImage
+from src.news.models import NewsStockModel, SeoBlock, NewsThourghtImage
 
 class NewsForm(forms.ModelForm):
 
@@ -45,4 +44,4 @@ class ImageForm(forms.ModelForm):
         fields = ['image_type']
 
 
-NewsImagesFormSet = inlineformset_factory(NewsStockModel, NewsThourghtImage, ImageForm, extra=1)
+NewsImagesFormSet = inlineformset_factory(NewsStockModel, NewsThourghtImage, ImageForm, extra=1, can_delete=True, )

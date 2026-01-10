@@ -159,7 +159,7 @@ AUTH_PASSWORD_VALIDATORS = []
 
 ACCOUNT_FORMS = {
     'signup': 'src.authorization.forms.Authorization',
-    'login': 'src.authorization.forms.Login'
+    'login': 'src.authorization.forms.Login',
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

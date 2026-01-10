@@ -76,20 +76,28 @@
   'FILL' 0,
   'wght' 400,
   'GRAD' 0,
-  'opsz' 24
-
+  'opsz' 24;
+  user-select: none;
 }
-.delete-form-button {
-    position: absolute;
+
+.delete-button {
+    position: relative;
     display: flex;
     border-radius: 15%;
     background-color: #ff4d4d;
-    width: 40px;
+    width: 24px;
     height: 28px;
     float: right;
     z-index: 100;
 
 }
+
+.input[name$="-DELETE"] {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
 
 .gallery-form {
     position: relative;

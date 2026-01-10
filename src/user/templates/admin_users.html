@@ -1,0 +1,129 @@
+{% extends 'custom_admin/theme.html' %}
+{% load static %}
+
+{% block content1 %}
+
+
+
+    <link rel="stylesheet" href="{% static 'dist/css/news.css' %}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel" />
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="mb-0">Створення</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row g-4 justify-content-center"> <div class="col-md-8 col-lg-7">
+                    <div class="card card-primary card-outline mb-4">
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+                                        <h2 class="card-title w-100" >Форма для створення</h2>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Имя</label>
+                                        {{ form.first_name }}
+                                    </div>
+
+                                    <div class="radio-group">
+                                    {% for radio in form.language %}
+                                            <label class="container">
+                                              {{radio.tag}}<span class="checkmark"></span> <span class="label-text"> {{radio.choice_label}}</span>
+                                            </label>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Фамилия</label>
+                                        {{ form.last_name }}
+                                    </div>
+
+                                    <div class="radio-group">
+                                    {% for radio in form.sex %}
+                                            <label class="container">
+                                                {{radio.tag}}<span class="checkmark"></span> <span class="label-text"> {{radio.choice_label}}</span>
+                                            </label>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Псевдоним</label>
+                                        {{ form.username }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Телефон</label>
+                                        {{ form.phone_number }}
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">E-mail</label>
+                                        {{ form.email }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Дата рождения</label>
+                                        {{ form.date_of_birth }}
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Адресс</label>
+                                        {{ form.real_adress }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Город</label>
+                                            {{ form.city }}
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Пароль</label>
+                                        {{ password_form.password1 }}
+                                        <span class="error-message">Пароль має бути не менше 8 символів!</span>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Повторить пароль</label>
+                                        {{ password_form.password2 }}
+                                        <span class="error-message">Пароль має бути не менше 8 символів!</span>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Номер карты</label>
+                                        {{ form.credit_card }}
+                                    </div>
+                                </div>
+
+
+                                <button class="w-100 btn btn-primary btn-lg" type="submit">Зберегти</button>
+                            </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+
+{% endblock %}
