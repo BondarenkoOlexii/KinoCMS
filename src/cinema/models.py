@@ -28,6 +28,7 @@ class Film(models.Model):
   name = models.CharField(max_length=225)
   description = models.TextField()
   trailer = models.URLField()
+  start_time = models.DateTimeField()
   image = models.ManyToManyField(Image, through=FilmThourghtImage)
   seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
   type = models.CharField(max_length=10,
@@ -40,7 +41,8 @@ class Hall(models.Model):
     name = models.CharField(max_length=225)
     description = models.TextField()
     image = models.ManyToManyField(Image, through=HallThourghtImage)
-    seat_count = models.IntegerField()
+    seat_count = models.IntegerField(null=True)
+    create_data = models.DateTimeField(auto_now_add=True)
     seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
 
 class Seat(models.Model):

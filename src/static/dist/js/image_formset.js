@@ -1,119 +1,125 @@
-const AddMoreButton = document.getElementById("add-form")
-const totalNewForms = document.getElementById("id_image-TOTAL_FORMS")
+const FormsetManager = {
+    getPrefix: () => {
+        const totalFormsInput = document.querySelector('input[id$="-TOTAL_FORMS"]');
+        return totalFormsInput ? totalFormsInput.id.replace('id_', '').replace('-TOTAL_FORMS', '') : 'form';
+    },
 
-AddMoreButton.addEventListener('click', add_new_formset)
-
-function add_new_formset(event) {
-
-    const currentFormCount = document.querySelectorAll('.gallery-form').length
-
-    const container = document.getElementById('forms-container-gallery')
-    const emptyFormElement = document.getElementById('empty-formset')
-
-
-    const copyEmptyForm = emptyFormElement.cloneNode(true)
+    reindexAll: function() {
+        const prefix = this.getPrefix();
+        const allForms = document.querySelectorAll('.gallery-form:not(#empty-formset)');
+        const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+        
+        allForms.forEach((form, index) => {
+            const regex = new RegExp(`${prefix}-(\\d+|__prefix__)-`, 'g');
+            const replacement = `${prefix}-${index}-`;
 
 
-    copyEmptyForm.setAttribute('class', 'gallery-form')
-    copyEmptyForm.removeAttribute('id')
-    copyEmptyForm.style.display = 'block'
+            form.querySelectorAll('input, select, textarea, label, img').forEach(el => {
+                ['name', 'id', 'for', 'src'].forEach(attr => {
+                    const val = el.getAttribute(attr);
+                    if (val) el.setAttribute(attr, val.replace(regex, replacement));
+                });
+            });
+        });
 
-    const regex = new RegExp('__prefix__', 'g')
-    copyEmptyForm.innerHTML = copyEmptyForm.innerHTML.replace(regex, currentFormCount)
-
-    const typeInput = copyEmptyForm.querySelector('input[name$="-image_type"]')
-    if (typeInput) {
-        typeInput.value = 'gallery'
+        if (totalForms) totalForms.value = allForms.length;
     }
-
-    totalNewForms.value = currentFormCount + 1
-
-    container.append(copyEmptyForm)
-}
+};
 
 
-// ---------------------------------------------------------------------------------------------------------------------
 
-const formsContainers = document.querySelectorAll('#forms-container-gallery, #forms-container-logo')
+const addButton = document.getElementById('add-form');
 
-formsContainers.forEach(container => {
-    container.addEventListener('change', (event) => {
-        const input = event.target;
-        if (input.type === 'file'){
-            const input = event.target
-            const[file] = input.files;
+if (addButton) {
+    addButton.addEventListener('click', (e) => {
+        e.preventDefault();
 
-            if (file){
-                const label = input.closest('.custom-upload')
-                const preview = label.querySelector('.preview-img')
+        const container = document.getElementById('forms-container-gallery');
+        const emptyTemplate = document.getElementById('empty-formset');
 
-                preview.src = URL.createObjectURL(file)
-                preview.style.display = 'block'
-            }
+        if (container && emptyTemplate) {
+            const newForm = emptyTemplate.cloneNode(true);
+            newForm.classList.add('gallery-form');
+            newForm.removeAttribute('id');
+            newForm.style.display = 'block';
+
+            container.appendChild(newForm);
+            FormsetManager.reindexAll();
         }
-
-    })
-
-})
-
-//------------------------------------------------------------------------------------------------------------------------------------
-
-function deleteExistForm(button){
-    const formRow = button.closest('.gallery-form');
-    const deleteCheckbox = formRow.querySelector('input[type="checkbox"][name$="-DELETE"]');
-
-    if (deleteCheckbox) {
-        deleteCheckbox.checked = true;
-        formRow.style.display = 'none';
-    }
-}
-
-function deleteEmptyForm(button) {
-    const formRow = button.closest('.gallery-form');
-    const totalFormsInput = document.querySelector('#id_image-TOTAL_FORMS');
-
-    if (formRow) {
-        formRow.remove();
-
-        const currentForms = document.querySelectorAll('#forms-container-gallery .gallery-form');
-        totalFormsInput.value = currentForms.length;
-
-        updateFormIndices();
-    }
+    });
 }
 
 
-const formsContainer2 = document.querySelector("#forms-container-gallery");
+document.addEventListener('click', (e) => {
+    const deleteBtn = e.target.closest('.delete-form-button');
+    if (deleteBtn) {
+        e.preventDefault();
+        const formRow = deleteBtn.closest('.gallery-form');
+        const idField = formRow.querySelector('input[name$="-id"]');
 
-if (formsContainer2) {
-    formsContainer2.addEventListener('click', function(e) {
+        if (idField && idField.value) {
 
-        const deleteBtn = e.target.closest('.delete-form-button');
 
-        if (deleteBtn) {
-            e.preventDefault();
-            const formRow = deleteBtn.closest('.gallery-form');
-            const idField = formRow.querySelector('input[name$="-id"]');
+            const deleteCheckbox = formRow.querySelector('input[type="checkbox"][name$="-DELETE"]');
+            if (deleteCheckbox) deleteCheckbox.checked = true;
+            formRow.style.display = 'none';
+        } else {
 
-            if (idField && idField.value) {
-                const deleteCheckbox = formRow.querySelector('input[type="checkbox"][name$="-DELETE"]');
-                if (deleteCheckbox) {
-                    deleteCheckbox.checked = true;
-                    formRow.style.display = 'none';
+            formRow.remove();
+            FormsetManager.reindexAll();
+        }
+    }
+});
+
+function initPreview() {
+    document.addEventListener('change', function(e) {
+        if (e.target.type === 'file' && e.target.name.includes('image')) {
+            const file = e.target.files[0];
+            const container = e.target.closest('.gallery-form') || e.target.closest('.custom-upload');
+
+            if (file && container) {
+                let img = container.querySelector('.preview-img');
+
+                if (!img) {
+                    img = document.createElement('img');
+                    img.classList.add('preview-img');
+                    container.appendChild(img);
                 }
-            } else {
-                deleteEmptyForm(deleteBtn);
+
+                img.src = URL.createObjectURL(file);
+                img.style.display = 'block';
+
             }
         }
     });
 }
 
 
-function updateFormIndices() {
-    const rows = document.querySelectorAll('#forms-container-gallery .gallery-form');
-    rows.forEach((row, index) => {
-        const regex = /image-\d+-/g;
-        const replacement = `image-${index}-`;
-        row.innerHTML = row.innerHTML.replace(regex, replacement);
-    });
+
+initPreview();
+
+
+function showFields(lang){
+    const sectionUk = document.getElementById('section-ua')
+    const sectionRu = document.getElementById('section-ru')
+
+    const BtnUk = document.getElementById('btn-uk')
+    const BtnRu = document.getElementById('btn-ru')
+
+    if (lang == 'uk_ua') {
+        sectionUk.style.display = 'block'
+        sectionRu.style.display = 'none'
+
+        btnUk.className = 'btn btn-primary'
+        btnRU.className = 'btn btn-outline-primary'
+
+    } else {
+
+        sectionUk.style.display = 'none'
+        sectionRu.style.display = 'block'
+
+        btnUk.className = 'btn btn-outline-primary'
+        btnRU.className = 'btn btn-primary'
+
+    }
 }

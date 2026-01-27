@@ -1,9 +1,11 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AdminLTE v4 | Dashboard</title>
+    <title>{% trans "AminLTE v4 | Dashboard" %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
@@ -38,6 +40,7 @@
     />
     <link rel="stylesheet" href="{% static 'dist/css/adminlte.css' %}" />
     <link rel="stylesheet" href="{% static 'dist/css/switch.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/news.css' %}">
       <style>
         .django-upload-form {
             display: flex;
@@ -85,9 +88,14 @@
               </a>
             </li>
           </ul>
-
           <ul class="navbar-nav ms-auto">
 <!--ВИХІД-->
+            <li style="margin-right: 50px">
+              <div>
+              <button type="button" id="btn-uk" class="btn btn-primary" onclick="showFields('uk_ua')">Українська</button>
+              <button type="button" id="btn-ru" class="btn btn-primary" onclick="showFields('ru')">Русский</button>
+            </div>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link" data-bs-toggle="dropdown" href="#">
                 <i class="bi bi-person-circle"></i>
@@ -119,55 +127,55 @@
             >
               <li class="nav-item">
                   <a href="{% url 'custom_dashboard' %}" class="nav-link">
-                    <p>Статистика</p>
+                    <p>{% trans "Статистика" %}</p>
                   </a>
                 </li>
 
               <li class="nav-item">
-                <a href="{% url 'theme' %}" class="nav-link">
-                  <p>Баннера/Слайдери</p>
+                <a href="{% url 'banner' %}" class="nav-link">
+                  <p>{% trans "Баннера/Слайдери" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'theme' %}" class="nav-link">
-                  <p>Фильмы</p>
+                <a href="{% url 'table_film' %}" class="nav-link">
+                  <p>{% trans "Фильмы" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'theme' %}" class="nav-link">
-                  <p>Кинотеатры</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="{% url 'table_news_stocks' %}" class="nav-link">
-                  <p>Новости</p>
+                <a href="{% url 'table_cinema' %}" class="nav-link">
+                  <p>{% trans "Кинотеатры" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{% url 'table_news_stocks' %}" class="nav-link">
-                  <p>Акции</p>
+                  <p>{% trans "Новости" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'table_page' %}" class="nav-link">
-                  <p>Страницы</p>
+                <a href="{% url 'table_news_stocks' %}" class="nav-link">
+                  <p>{% trans "Акции" %}</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'table_pages' %}" class="nav-link">
+                  <p>{% trans "Страницы" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{% url 'table_user' %}" class="nav-link">
-                  <p>Пользователи</p>
+                  <p>{% trans "Пользователи" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{% url 'theme' %}" class="nav-link">
-                  <p>Рассылка</p>
+                  <p>{% trans "Рассылка" %}</p>
                 </a>
               </li>
 

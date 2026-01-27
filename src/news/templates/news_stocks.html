@@ -26,15 +26,31 @@
                                     </div>
                                 </div>
                                 <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">Name</label>
-                                        {{ news_form.name }}
+                                    <div id="section-ua">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Name Uk</label>
+                                            {{ news_form.name_uk_ua }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">Description</label>
+                                            <div class="input-group has-validation">
+                                                {{news_form.description_uk_ua}}
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="col-12">
-                                        <label class="form-label">Description</label>
-                                        <div class="input-group has-validation">
-                                            {{news_form.description}}
+                                    <div id="section-ru" style="display: none">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Name Ru</label>
+                                            {{ news_form.name_ru }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">Description</label>
+                                            <div class="input-group has-validation">
+                                                {{news_form.description_ru}}
+                                            </div>
                                         </div>
                                     </div>
 

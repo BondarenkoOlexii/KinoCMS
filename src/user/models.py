@@ -12,6 +12,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=20, null=True, blank=True, validators=[phone_validator], unique=True)
     city = models.CharField(max_length=20, null=True, choices=City, default=City.choices[0][0])
     date_of_birth = models.DateField(null=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     language = models.CharField(max_length=2, choices=Language.choices, default=Language.choices[0][0])
     sex = models.CharField(max_length=5, choices=Sex.choices, default=Sex.choices[0][0])
     credit_card = models.CharField(max_length=16, unique=True)

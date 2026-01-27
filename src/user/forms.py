@@ -35,10 +35,3 @@ class CustomChangePassword(SetPasswordForm):
             if field != 'old_password':
                 self.fields[field].widget.attrs.update({'class': 'form-control', 'placeholder': place_holder[index]})
                 index += 1
-
-
-class CustomUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
-
-        model = User
-        fields = ('email', 'password')

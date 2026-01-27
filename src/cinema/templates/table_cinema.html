@@ -1,0 +1,46 @@
+{% extends 'custom_admin/theme.html' %}
+{% load static %}
+
+{% block content1 %}
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Список Кінотеатрів</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header">
+      <div class="forms-container">
+          {% for link in image_items %}
+            {% if link.image_type == 'logo' %}
+                    <div>
+                        <div class="delete-button" style="display: flex; flex-direction: column; gap: 5px;">
+                            {% if link.id > 1 %}
+                                <a href="{% url 'delete_cinema' link.images_info.id %}"><button>🗑️</button></a>
+                            {% endif %}
+                            <a href="{% url 'update_cinema' link.images_info.id %}"><button>✏</button></a>
+                        </div>
+                        <label class="custom-upload">
+                            <img src="{{ link.image.photo.url }}" class="preview-img" style="display: block; margin-bottom: 15px">
+                        </label>
+
+                        <label class="name-under-img">
+                            <span class="form-label">{{link.images_info.name}}</span>
+                        </label>
+                    </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+
+
+    <a href="cinema.html" class="btn btn-success btn-sm" style="margin-top: 40px">
+        <i class="bi bi-plus-lg"></i> Створити нову
+    </a>
+
+</div>
+{% endblock %}

@@ -31,15 +31,31 @@
                                     </div>
                                 </div>
                                 <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">Name</label>
-                                        {{ pageform.name }}
+                                    <div id="section-ua">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Name Uk</label>
+                                            {{ pageform.name_uk_ua }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">Description</label>
+                                            <div class="input-group has-validation">
+                                                {{pageform.description_uk_ua}}
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="col-12">
-                                        <label class="form-label">Description</label>
-                                        <div class="input-group has-validation">
-                                            {{pageform.description}}
+                                    <div id="section-ru" style="display: none">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Name Ru</label>
+                                            {{ pageform.name_ru }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">Description</label>
+                                            <div class="input-group has-validation">
+                                                {{pageform.description_ru}}
+                                            </div>
                                         </div>
                                     </div>
 
@@ -63,7 +79,7 @@
                                                         <label for="{{ form.image.id_for_label }}" class="custom-upload">
                                                             {{form.image}}
                                                             <input type="hidden" name="{{ form.prefix }}-image_type" value="logo">
-                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
+                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %}" class="preview-img">
                                                         </label>
                                                     </div>
                                                 {% endif %}
@@ -89,7 +105,7 @@
                                                         <label for="{{ form.image.id_for_label }}" class="custom-upload">
                                                             {{form.image}}
                                                             <input type="hidden" name="{{ form.prefix }}-image_type" value="gallery">
-                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
+                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %}" class="preview-img">
                                                         </label>
                                                     </div>
                                                 {% endif %}

@@ -60,11 +60,13 @@
 }
 
 .forms-container {
-    display: flex;
-    flex-directionL row;
+    display: flex !important;
+    flex-direction: row ! important;
     flex-wrap: wrap;
     gap: 20px;
 }
+
+
 
 
 
@@ -103,4 +105,9 @@
     position: relative;
     display: inline-block;
 
+}
+
+.name-under-img {
+    font-size: 20px;
+    margin-left: 70px
 }

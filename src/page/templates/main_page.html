@@ -1,0 +1,90 @@
+{% extends 'custom_admin/theme.html' %}
+{% load static %}
+
+
+{% block content1 %}
+    <link rel="stylesheet" href="{% static 'dist/css/news.css' %}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel" />
+
+
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="mb-0">Створення</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row g-4 justify-content-center"> <div class="col-md-8 col-lg-7">
+                    <div class="card card-primary card-outline mb-4">
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+                                        <h2 class="card-title w-100" >Форма для створення {% include 'custom_admin/switch.html' %}</h2>
+                                    </div>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Phone</label>
+                                        {{ form.number_phone }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Seo Text</label>
+                                        <div class="input-group has-validation">
+                                            {{form.seo_text_ru}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Seo Text</label>
+                                        <div class="input-group has-validation">
+                                            {{form.seo_text_uk_ua}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="form-label">SEOBLOCK</p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">URL</label>
+                                        {{ seoform.url }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Title</label>
+                                        {{ seoform.title }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Keyword</label>
+                                        {{ seoform.keyword }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Description</label>
+                                        <div class="input-group has-validation">
+                                            {{seoform.description}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4" />
+
+                                <button class="w-100 btn btn-primary btn-lg" type="submit">Зберегти</button>
+                            </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+    <script src="{% static 'dist/js/image_formset.js' %}"></script>
+{% endblock %}

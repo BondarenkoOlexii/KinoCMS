@@ -1,0 +1,187 @@
+{% extends 'custom_admin/theme.html' %}
+{% load static %}
+
+{% block content1 %}
+    <link rel="stylesheet" href="{% static 'dist/css/news.css' %}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel" />
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="mb-0">Створення</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row g-4 justify-content-center"> <div class="col-md-8 col-lg-7">
+                    <div class="card card-primary card-outline mb-4">
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+                                        <h2 class="card-title w-100" >Форма для створення</h2>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div id="section-ua">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Name Uk</label>
+                                            {{ form.name_uk_ua }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label">Description</label>
+                                            <div class="input-group has-validation">
+                                                {{form.description_uk_ua}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="section-ru" style="display: none">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Name Ru</label>
+                                            {{ form.name_ru }}
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <label class="form-label">Description</label>
+                                            <div class="input-group has-validation">
+                                                {{form.description_ru}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Description</label>
+                                        <div class="input-group has-validation">
+                                            {{form.start_time}}
+                                        </div>
+                                    </div>
+
+                                     <div class="col-sm-6">
+                                        <div class="radio-group">
+                                          {% for checkbox in form.type %}
+                                            <label class="container">
+                                              {{checkbox.tag}}<span class="checkmark"></span> <span class="label-text"> {{checkbox.choice_label}}</span>
+                                            </label>
+                                          {% endfor %}
+                                        </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">URL</label>
+                                        {{form.trailer}}
+                                    </div>
+
+                                    <div>
+                                        {{image_formset.management_form}}
+                                        <div id="logo" data-type="logo">
+                                            <h3> Логотип </h3>
+                                            <div id="forms-container-logo" class="forms-container">
+                                                {% for form in image_formset %}
+                                                    {% if form.instance.image_type == 'logo' or form.initial.image_type == 'logo' %}
+                                                        <div class="gallery-form">
+                                                            {{ form.id }}<div style="display: none;"> {{form.DELETE}} </div>
+                                                             <label class="delete-button">
+                                                                    <button type="button" class="delete-form-button">
+                                                                    <span class="material-symbols-outlined">cancel</span>
+                                                                </button>
+                                                             </label>
+
+
+                                                            <label for="{{ form.image.id_for_label }}" class="custom-upload">
+                                                                {{form.image}}
+                                                                <input type="hidden" name="{{ form.prefix }}-image_type" value="logo" class="type-input">
+                                                                    <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
+                                                            </label>
+                                                        </div>
+                                                    {% endif %}
+                                            {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div id="gallery" data-type="gallery">
+                                            <h3> ГАЛЕРЕЯ </h3>
+                                            <div id="forms-container-gallery" class="forms-container">
+                                                {% for form in image_formset %}
+                                                {% if form.instance.image_type == 'gallery' or form.initial.image_type == 'gallery' %}
+                                                    <div class="gallery-form">
+                                                        {{ form.id }} <div style="display: none;"> {{form.DELETE}} </div>
+                                                         <label class="delete-button">
+                                                                <button type="button" class="delete-form-button">
+                                                                <span class="material-symbols-outlined">cancel</span>
+                                                            </button>
+                                                         </label>
+
+
+                                                        <label for="{{ form.image.id_for_label }}" class="custom-upload">
+                                                            {{form.image}}
+                                                            <input type="hidden" name="{{ form.prefix }}-image_type" value="gallery" class="type-input">
+                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
+                                                        </label>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </div>
+
+                                            <div id="empty-formset" class="hidden" style="display:none">
+                                                 <label class="delete-button">
+                                                    <button type="button" class="delete-form-button">
+                                                        <span class="material-symbols-outlined">cancel</span>
+                                                    </button>
+                                                 </label>
+                                                <label for="{{ image_formset.empty_form.image.id_for_label }}" class="custom-upload">
+                                                    {{ image_formset.empty_form.image }}
+                                                    <input type="hidden" name="image-__prefix__-image_type" value="gallery">
+                                                    <img src="" class="preview-img">
+                                                </label>
+                                            </div>
+
+                                            <button id="add-form" type="button">Добавить Изображение</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="form-label">SEOBLOCK</p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">URL</label>
+                                        {{ seo_form.url }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Title</label>
+                                        {{ seo_form.title }}
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Keyword</label>
+                                        {{ seo_form.keyword }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">Description</label>
+                                        <div class="input-group has-validation">
+                                            {{seo_form.description}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4" />
+
+                                <button class="w-100 btn btn-primary btn-lg" type="submit">Зберегти</button>
+                            </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+    <script src="{% static 'dist/js/image_formset.js' %}"></script>
+{% endblock %}

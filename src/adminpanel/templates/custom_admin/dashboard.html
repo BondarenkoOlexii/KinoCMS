@@ -36,8 +36,6 @@
     <link
       rel="stylesheet"
       href="{% static 'dist/css/adminlte.css'%}"
-      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-      crossorigin="anonymous"
       media="print"
       onload="this.media='all'"
     />
@@ -59,14 +57,10 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
-      integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
-      crossorigin="anonymous"
     />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
-      integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
-      crossorigin="anonymous"
     />
   </head>
 
@@ -212,8 +206,8 @@
                 <!--begin::Small Box Widget 1-->
                 <div class="small-box text-bg-primary">
                   <div class="inner">
-                    <h3>150</h3>
-                    <p>New Orders</p>
+                    <h3>{{page_items}}</h3>
+                    <p>Page Count</p>
                   </div>
                   <svg
                     class="small-box-icon"
@@ -240,8 +234,8 @@
                 <!--begin::Small Box Widget 2-->
                 <div class="small-box text-bg-success">
                   <div class="inner">
-                    <h3>53<sup class="fs-5">%</sup></h3>
-                    <p>Bounce Rate</p>
+                    <h3>{{cinema_items}}</h3>
+                    <p>Cinema Count</p>
                   </div>
                   <svg
                     class="small-box-icon"
@@ -268,7 +262,7 @@
                 <!--begin::Small Box Widget 3-->
                 <div class="small-box text-bg-warning">
                   <div class="inner">
-                    <h3>44</h3>
+                    <h3>{{user_items}}</h3>
                     <p>User Registrations</p>
                   </div>
                   <svg
@@ -296,8 +290,8 @@
                 <!--begin::Small Box Widget 4-->
                 <div class="small-box text-bg-danger">
                   <div class="inner">
-                    <h3>65</h3>
-                    <p>Unique Visitors</p>
+                    <h3>{{film_items}}</h3>
+                    <p>Film Count</p>
                   </div>
                   <svg
                     class="small-box-icon"
@@ -377,6 +371,26 @@
                   </div>
                 </div>
               </div>
+
+              <div class="card card-danger" style="width: 50%">
+                <div class="card-header">
+                  <h3 class="card-title" style="width: 120%">Donut Chart</h3>
+
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                  <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 355px;" width="317" height="223" class="chartjs-render-monitor"></canvas>
+                </div>
+                <!-- /.card-body -->
+              </div>
+
               <!-- /.Start col -->
             </div>
             <!-- /.row (main row) -->
@@ -452,8 +466,6 @@
     <!-- apexcharts -->
     <script
       src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
-      integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
-      crossorigin="anonymous"
     ></script>
     <script>
 
@@ -514,13 +526,9 @@
     <!-- jsvectormap -->
     <script
       src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
-      integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y="
-      crossorigin="anonymous"
     ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"
-      integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
-      crossorigin="anonymous"
     ></script>
     <!-- jsvectormap -->
     <script>
@@ -615,6 +623,61 @@
       const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
       sparkline3.render();
     </script>
+
+    {{ labels|json_script:"user_count_sex-data" }}
+    {{ counts|json_script:"user_items-data" }}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+    // Чекаємо, поки все завантажиться
+      window.addEventListener('load', function () {
+
+        // 1. Отримуємо елементи (ВИПРАВЛЕНІ ID з твого Django-коду)
+        const labelsElement = document.getElementById('user_count_sex-data');
+        const countsElement = document.getElementById('user_items-data');
+
+        if (labelsElement && countsElement) {
+          // 2. Парсимо дані
+          const labels = JSON.parse(labelsElement.textContent);
+          const counts = JSON.parse(countsElement.textContent);
+
+          console.log("Дані підключено:", labels, counts);
+
+          // 3. Знаходимо канвас (стандартним способом без $)
+          const canvas = document.getElementById('donutChart');
+          if (canvas) {
+            const ctx = canvas.getContext('2d');
+
+            // 4. Створюємо графік (Синтаксис для Chart.js v3/v4)
+            new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                labels: labels,
+                datasets: [{
+                  data: counts,
+                  backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc'],
+                }]
+              },
+              options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: 'right'
+                  }
+                }
+              }
+            });
+          }
+        } else {
+          console.error("Django-скрипти з даними не знайдено на сторінці!");
+        }
+      });
+    </script>
+
+
     <!--end::Script-->
   </body>
   <!--end::Body-->
