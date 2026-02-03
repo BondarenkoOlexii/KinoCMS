@@ -179,8 +179,8 @@
                                                 <td>{{item.name}}</td>
                                                 <td>{{item.create_data}}</td>
                                                 <td>
-                                                    <a href="{% url 'delete_hall' cinema_pk=form.instance.id  hall_pk=item.id %}"><button>🗑️</button></a>
-                                                    <a href="{% url 'update_hall' cinema_pk=form.instance.id  hall_pk=item.id  %}"><button>✏</button></a>
+                                                    <a href="{% url 'delete_hall' cinema_pk=form.instance.id  hall_pk=item.id %}">🗑️</a>
+                                                    <a href="{% url 'update_hall' cinema_pk=form.instance.id  hall_pk=item.id  %}">✏</a>
                                                 </td>
                                             </tr>
                                             {% empty %}

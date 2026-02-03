@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 
 phone_validator = RegexValidator(r'\+380\d{9}$')
 
+
 class User(AbstractUser):
     real_adress = models.TextField(null=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True, validators=[phone_validator], unique=True)
@@ -16,6 +17,3 @@ class User(AbstractUser):
     language = models.CharField(max_length=2, choices=Language.choices, default=Language.choices[0][0])
     sex = models.CharField(max_length=5, choices=Sex.choices, default=Sex.choices[0][0])
     credit_card = models.CharField(max_length=16, unique=True)
-    
-
-

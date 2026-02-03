@@ -35,3 +35,16 @@ class CustomChangePassword(SetPasswordForm):
             if field != 'old_password':
                 self.fields[field].widget.attrs.update({'class': 'form-control', 'placeholder': place_holder[index]})
                 index += 1
+
+
+class NewsletterForm(forms.Form):
+
+    html_email = forms.FileField(label='document')
+
+    type = forms.ChoiceField(choices=[('all', 'Все пользователи'), ('selective', 'Виборочно')],
+                            initial=['all'],
+                            widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+
+
+class User_Choise(forms.Form):
+    users = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=forms.CheckboxSelectMultiple(), required=False)

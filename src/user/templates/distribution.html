@@ -1,0 +1,105 @@
+{% extends 'custom_admin/theme.html' %}
+{% load static %}
+
+{% block content1 %}
+    <link rel="stylesheet" href="{% static 'dist/css/news.css' %}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel" />
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="mb-0">Створення</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row g-4 justify-content-center"> <div class="col-md-8 col-lg-7">
+                    <div class="card card-primary card-outline mb-4">
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+                                        <h2 class="card-title w-100" >Форма для створення</h2>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-12" style="width: 50%">
+                                        <label class="form-label">EMAIL</label>
+                                        <div class="input-group has-validation">
+                                            {{form.html_email}}
+                                        </div>
+                                    </div>
+
+                                     <div class="col-sm-6" style="width: 50%">
+                                        <div class="radio-group">
+                                          {% for checkbox in form.type %}
+                                            <label class="container">
+                                              {{checkbox.tag}}<span class="checkmark"></span> <span class="label-text"> {{checkbox.choice_label}}</span>
+                                            </label>
+                                          {% endfor %}
+                                        </label>
+                                        </div>
+                                    </div>
+                                    <div style="flex-direction: column; gap: 10px;">
+                                        <a href="choise_users.html" class="btn btn-success btn-sm" style="width: 40%; display: block; margin-left: auto">
+                                            <i class="bi bi-plus-lg"></i> Створити нову
+                                         </a>
+                                        <table style="border-collapse: collapse; width: 200px; height: 20px; border: 1px solid black;" >
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 5px;">.</th>
+                                                <th style="border: 1px solid black; padding: 5px;">.</th>
+                                            </tr>
+                                            {% for file in files %}
+                                                <tr>
+                                                    <td style="border: 1px solid black; padding: 5px;">{{ file.name }}</td>
+                                                    <td style="border: 1px solid black; padding: 5px;"><a href="{% url 'delete_file' file.name %}" class="btn btn-danger btn-sm">Видалити</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                        <div style="width: 50%">
+                                            <label style="background-color: gray; height: 100px" id="status-container">
+                                                <p>Загальна кількість листів - <span id="total-count">0</span></p>
+                                                <p>Кількість надісланого - <span id="current-status-count">0</span></p>
+                                                <p>Розсилка виконана на - <span id="percent">0</span></p>
+                                            </label>
+                                        </div>
+                                </div>
+
+
+
+
+
+                                <hr class="my-4" />
+
+                                <button class="w-100 btn btn-primary btn-lg" type="submit">Начать рассилку</button>
+                            </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+    <script src="{% static 'dist/js/image_formset.js' %}"></script>
+    <script src="{% static 'dist/js/distribution.js' %}"></script>
+    <script>
+        const tid = "{{ task_id }}";
+
+        if (tid && tid !== "None") {
+            console.log("ЗАПУСК відстеження:", tid);
+
+            // Генеруємо ПОВНИЙ правильний URL прямо тут
+            // Django сам підставить /adminpanel/ і всі потрібні слеші
+            const finalUrl = "{% if task_id %}{% url 'progress_view' task_id %}{% endif %}";
+
+            if (finalUrl) {
+                postData(tid, finalUrl);
+            }
+        }
+    </script>
+{% endblock %}

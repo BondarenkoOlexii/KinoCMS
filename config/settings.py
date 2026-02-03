@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
+from celery import Celery
 from django.utils.translation import gettext_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -156,6 +157,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# AUTHORISATION
 AUTH_USER_MODEL = 'user.User'
 
 AUTH_PASSWORD_VALIDATORS = []
@@ -165,8 +167,22 @@ ACCOUNT_FORMS = {
     'login': 'src.authorization.forms.Login',
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+ACCOUNT_EMAIL_REQUIRED = False
+
+# EMAIL
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'mayoright01@gmail.com' # ЗМІНИТИ ПРИ ДЕПЛОЇ
+EMAIL_HOST_PASSWORD = 'duinaarjpzgffudg' # ЗМІНИТИ ПРИ ДЕПЛОЇ
+
+
+#--------------------------------------------------------------------------
 LOGIN_REDIRECT_URL = '/'
 
 MEDIA_URL = '/media/'
@@ -182,3 +198,13 @@ LANGUAGES = [
 LOCALE_PATHS = [
     BASE_DIR / 'locale/',
 ]
+
+
+# DEAFULT DJANGO SETTING MODULE FOR THE 'CELERY AND REDIS'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE

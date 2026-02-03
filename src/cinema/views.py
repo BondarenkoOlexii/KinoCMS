@@ -456,11 +456,11 @@ def update_hall(request,cinema_pk, hall_pk):
                     thourgh_form.save()
 
             return redirect('update_cinema', pk=cinema_id)
-    if request.method == 'GET':
+    else:
         form = HallForm(instance=item, prefix='hall')
         seoform = SeoForm(instance=seo_item, prefix='seo')
         image_formset = HallImagesFormSet(instance=item, prefix="image")
 
-    return render(request, 'cinema.html',
-                  {'item': item, 'seo_item': seo_item, 'form': form, 'seo_form': seoform,
+    return render(request, 'hall.html',
+                  {'item': item, 'seo_item': seo_item, 'hall_form': form, 'seo_form': seoform,
                    'image_formset': image_formset})
