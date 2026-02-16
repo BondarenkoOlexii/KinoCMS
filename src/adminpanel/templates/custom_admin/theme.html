@@ -150,13 +150,13 @@
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'table_news_stocks' %}" class="nav-link">
+                <a href="{% url 'table_news_stocks' 'news' %}" class="nav-link {% if active_type == 'news' %}active{% endif %}">
                   <p>{% trans "Новости" %}</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{% url 'table_news_stocks' %}" class="nav-link">
+                <a href="{% url 'table_news_stocks' 'stock' %}" class="nav-link {% if active_type == 'news' %}active{% endif %}">
                   <p>{% trans "Акции" %}</p>
                 </a>
               </li>

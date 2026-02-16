@@ -1,0 +1,118 @@
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+
+from src.news.models import NewsStockModel, NewsThourghtImage
+from src.cinema.models import Cinema, Film, FilmThourghtImage, CinemaThourghtImage
+from src.page.models import Page, PageThourghtImage, Contacts
+from src.user.models import User
+from src.user.forms import UserForm, CustomChangePassword
+# Create your views here
+
+
+def table_cinema_page(request):
+    items = Cinema.objects.all()
+    image_items = CinemaThourghtImage.objects.all()
+    return render(request, 'table_cinema_pages.html', {'items': items, 'image_items': image_items })
+
+def cinema_page(request, pk):
+    item = Cinema.objects.get(id=pk)
+    image_item = CinemaThourghtImage.objects.filter(images_info=item)
+    return render(request, 'cinema_pages.html', {'item':item, 'image_item':image_item})
+
+def pages(request, content_type):
+    item = Page.objects.get(type=content_type)
+    image_item = PageThourghtImage.objects.filter(images_info=item)
+
+    return render(request, 'pages.html', {'item':item, 'image_item':image_item})
+
+def contact(request):
+    items = Contacts.objects.all()
+    return render(request, 'contacts.html', {'items':items})
+
+
+
+def table_stock_pages(request, content_type):
+    items = NewsStockModel.objects.filter(type=content_type)
+
+    items_per_page = 10
+    paginator = Paginator(items, items_per_page)
+
+    item_number = request.GET.get('page')
+    item_obj = paginator.get_page(item_number)
+
+    current_page_ids = [item.id for item in item_obj]
+    image_items = NewsThourghtImage.objects.filter(images_info_id__in=current_page_ids)
+
+    return render(request, 'table_stock_pages.html', {'items': item_obj, 'image_items': image_items, 'type': content_type})
+
+def stock_page(request, pk):
+    item = NewsStockModel.objects.get(id=pk)
+    image_item = NewsThourghtImage.objects.filter(images_info=item)
+    return render(request, 'stocks.html', {'item':item, 'image_item':image_item})
+
+def afisha(request, content_type):
+    today = timezone.now().date()
+    if content_type == 'afisha':
+        afisha_items = Film.objects.filter(start_time__lte=today, end_time__gte=today)
+        items_ids = afisha_items.values_list('id', flat=True)
+        image_items = FilmThourghtImage.objects.filter(images_info_id__in=afisha_items)
+        return render(request, 'afisha.html', {'items':afisha_items, 'image_items':image_items, 'type':content_type})
+    elif content_type == 'soon':
+        soon_items = Film.objects.filter(start_time__gt=today)
+        items_ids = soon_items.values_list('id', flat=True)
+        image_items = FilmThourghtImage.objects.filter(images_info_id__in=soon_items)
+        return render(request, 'afisha.html', {'items':soon_items, 'image_items':image_items, 'type':content_type})
+
+
+def film(request, pk):
+    item = Film.objects.get(pk=pk)
+    image_item = FilmThourghtImage.objects.filter(images_info=item)
+    return render(request, 'film_page.html', {'item': item, 'image_item':image_item})
+
+
+
+@login_required
+def profile(request, pk):
+    if request.user.id != pk:
+        raise PermissionDenied
+
+
+    password_form = None
+    item = get_object_or_404(User,id=pk)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=item, prefix='userform')
+        password_form = CustomChangePassword(user=item, data=request.POST, prefix='password_form')
+        if form.is_valid() and password_form.is_valid():
+            form.save()
+            password_form.save()
+            update_session_auth_hash(request, item)
+            return redirect('profile', pk=item.id)
+        else:
+            print(f"Ошибка UserForm:\n{form.errors.as_text()}")
+    else:
+        form = UserForm(instance=item,prefix='userform')
+        password_form = CustomChangePassword(user=item, prefix='password_form')
+
+    return render(request, 'user_profile.html', {'item': item, 'form':form, 'password_form': password_form})
+
+
+def main_page(request):
+    today = timezone.now().date()
+
+    afisha_items = Film.objects.filter(start_time__lte=today, end_time__gte=today)
+    afisha_items_ids = afisha_items.values_list('id', flat=True)
+    afisha_image_items = FilmThourghtImage.objects.filter(images_info_id__in=afisha_items)
+
+
+    soon_items = Film.objects.filter(start_time__gt=today)
+    soon_items_ids = soon_items.values_list('id', flat=True)
+    soon_image_items = FilmThourghtImage.objects.filter(images_info_id__in=soon_items)
+
+    context = {'afisha_items': afisha_items, 'afisha_image_items': afisha_image_items, 'soon_items': soon_items, 'soon_image_items': soon_image_items}
+
+    return render(request, 'main.html', context)

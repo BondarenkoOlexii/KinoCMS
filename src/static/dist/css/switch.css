@@ -66,6 +66,16 @@
     margin-left: 100px;
 }
 
+.radio-banner-group {
+    display: block;
+    gap: 10px;
+    margin-top: 10px;
+    width: auto;
+    flex-wrap: nowrap;
+    margin-left: 100px;
+}
+
+
  /* Customize the label (the container) */
 .container {
   display: flex;

@@ -111,3 +111,8 @@
     font-size: 20px;
     margin-left: 70px
 }
+
+.display{
+    display: flex;
+    justify-content: flex-end;
+}

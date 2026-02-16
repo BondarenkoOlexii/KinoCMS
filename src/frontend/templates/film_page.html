@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" style="margin-bottom: 40px">
+    <div class="col-lg-6 px-0">
+    </div>
+</div>
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" style="margin-bottom: 40px">
+    <div class="col-lg-6 px-0">
+      <p>РАСПІСАНІЄ</p>
+    </div>
+</div>
+
+
+
+<div class="cinema-card d-flex align-items-center p-4 mb-4 shadow-sm border-0 text-white" style="background-color: #212529; border-radius: 12px;">
+    <div class="logo-placeholder d-flex align-items-center justify-content-center" style="width: 350px; height: 300px; background-color: #343a40; border-radius: 8px;">
+        {% for form in image_item %}
+            {% if form.image_type == 'logo' %}
+                <img src="{{ form.image.photo.url }}" alt="Logo" class="img-fluid rounded" style="max-height: 100%;">
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="ms-auto d-flex flex-column align-items-end gap-3">
+        <a href="#" class="btn-schedule px-4 py-2 fw-semibold text-nowrap" style="color: #ffffff">Купити Білет</a>
+        {{ item.name }}
+        {{ item.description }}
+    </div>
+
+</div>
+
+
+<div id="cinemaGallery" class="carousel slide shadow-sm border bg-white p-4 mb-4" data-bs-ride="carousel" style="border-radius: 8px;">
+    <h3 class="fw-bold text-dark mb-4 text-center">Галерея</h3>
+
+    <div class="carousel-inner">
+        {% for form in image_item %}
+            {% if form.image_type == 'gallery' %}
+                <div class="carousel-item {% if not gallery_started %}active{% endif %}">
+                    <div class="gallery-slide-container" style="height: 400px;">
+                        <img src="{{ form.image.photo.url }}" class="d-block w-100 h-100 rounded" style="object-fit: contain; background: #f8f9fa;" alt="Gallery Image">
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#cinemaGallery" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#cinemaGallery" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+{% endblock %}

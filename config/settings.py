@@ -54,7 +54,12 @@ ADMIN_APPS = [
     'src.user.apps.UserConfig'
 ]
 
+FRONT_APPS = [
+    'src.frontend.apps.FrontendConfig'
+]
+
 INSTALLED_APPS += ADMIN_APPS
+INSTALLED_APPS += FRONT_APPS
 
 MIDDLEWARE = (
     "django.contrib.sessions.middleware.SessionMiddleware",

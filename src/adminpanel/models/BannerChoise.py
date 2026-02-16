@@ -10,3 +10,4 @@ class DropBox(models.TextChoices):
 class TypeBanner(models.TextChoices):
     main = 'main', 'main'
     stock = 'stock', 'stock'
+

@@ -1,0 +1,97 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.preview-img {
+    width: 328px;
+    height: 200px;
+    object-fit: cover;
+    position: absolute;
+    z-index: 10;
+    top: -16px;
+    left: -28px;
+    border-radius: 8px;
+}
+
+.name-under-img {
+    font-size: 20px;
+    display: block;
+    margin-top: 160px;
+    text-align: center;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+
+.badge-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    min-width: 45px;
+}
+
+.tag-3d {
+    background-color: #9b51e0;
+}
+
+.tag-2d {
+    background-color: #2d9cdb;
+    text-decoration: underline;
+}
+
+.tag-imax {
+    background-color: #27ae60;
+    text-decoration: underline;
+}
+
+
+
+
+.custom-scrollbar::-webkit-scrollbar {
+    height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

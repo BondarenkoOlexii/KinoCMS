@@ -1,7 +1,13 @@
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, modelformset_factory
 from src.adminpanel.models.BannerChoise import TypeBanner, DropBox
-from src.page.models import Page, MainPage, Banner, BackgroundBanner, SeoBlock, PageThourghtImage, BannerThourghtImage, BackBannerThourghtImage
+from src.page.models import Page, MainPage, Banner, BackgroundBanner, SeoBlock, PageThourghtImage, BannerThourghtImage, BackBannerThourghtImage, Contacts
+
+IS_IMAGE = [
+    (True, 'Зображення'),
+    (False, 'Колір'),
+]
+
 
 class MainPageForm(forms.ModelForm):
     class Meta:
@@ -100,15 +106,21 @@ class ImageForm(forms.ModelForm):
 
         }
 
-BannerImagesFormSet = inlineformset_factory(Banner, BannerThourghtImage, ImageForm, extra=3, can_delete=True, )
+BannerImagesFormSet = inlineformset_factory(Banner, BannerThourghtImage, ImageForm, extra=0, can_delete=True, )
 
 
 class BackBannerForm(forms.ModelForm):
+
     class Meta:
         model = BackgroundBanner
         fields = ['is_image', 'background_color']
 
         exclude = ('image',)
+
+        widgets = {
+                   "is_image": forms.RadioSelect(choices=IS_IMAGE, attrs={'class': 'form-check-input'}),
+                   "background_color": forms.TextInput(attrs={'class': 'form-control', 'style': 'height: 50px; margin-top: 20px'})
+                   }
 
 class BackImageForm(forms.ModelForm):
     image = forms.ImageField(
@@ -122,3 +134,31 @@ class BackImageForm(forms.ModelForm):
         fields = ['images_info']
 
 BackBannerImagesFormSet = inlineformset_factory(BackgroundBanner, BackBannerThourghtImage, BackImageForm, extra=1, can_delete=True, )
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+class ContactForm(forms.ModelForm):
+    image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'type': "file", 'class': 'add-form-button'}),
+        label="Фотографія"
+    )
+    class Meta:
+        model = Contacts
+        fields = ['name', 'adress', 'coordinate']
+        exclude = ('seoblock', )
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+            'name_ru': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+
+            "adress": forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            "adress_ru": forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+
+            "coordinate": forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
+        }
+
+ContactImagesFormSet = modelformset_factory(Contacts, form=ContactForm, can_delete=True, )
+

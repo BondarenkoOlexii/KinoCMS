@@ -26,12 +26,19 @@
             <tbody>
             {% for item in items %}
             <tr>
-                <td>{{ item.name_uk_ua }}</td>
+                {% if item.number_phone %}
+                    <td>Главная страница</td>
+                {% else %}
+                    <td>{{item.name_uk_ua }}</td>
+                {% endif %}
+
                 <td>{{item.data_create}}</td>
                 <td>{{item.is_active}}</td>
                 <td>
                     {% if item.number_phone %}
                         <a href="{% url 'update_main_page' item.id %}"><button>Update</button></a>
+                    {% elif item.adress %}
+                        <a href="{% url 'update_contact_page' item.id %}"><button>Update</button></a>
                     {% else %}
                         <a href="{% url 'update_pages' item.id %}"><button>Update</button></a>
                     {% endif %}

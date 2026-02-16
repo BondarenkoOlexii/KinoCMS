@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from src.common.models import SeoBlock, ThourghtImage, Image
 from src.adminpanel.models.BannerChoise import TypeBanner, DropBox
+from src.adminpanel.models.CommonChoise import CommonType
 from src.adminpanel.models.TypeRoomPage import TypeRoom
 from django.core.validators import RegexValidator
 # Create your models here.
@@ -13,12 +14,10 @@ phone_validator = RegexValidator(r'\+380\d{9}$')
 
 class PageThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('Page', on_delete=models.CASCADE)
-class ContactThourghtImage(ThourghtImage):
-    images_info = models.ForeignKey('Contacts', on_delete=models.CASCADE)
 class BannerThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('Banner', on_delete=models.CASCADE)
     url = models.URLField()
-    text = models.TextField(null=True)
+    text = models.TextField(null=True, blank=True)
 class BackBannerThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('BackgroundBanner', on_delete=models.CASCADE)
 
@@ -46,8 +45,10 @@ class Contacts(models.Model):
     name = models.CharField(225)
     adress = models.TextField()
     coordinate = models.TextField()
-    image = models.ManyToManyField(Image, through=ContactThourghtImage)
-    seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
+    image = models.OneToOneField(Image, on_delete=models.CASCADE)
+    seoblock = models.ForeignKey(SeoBlock, on_delete=models.SET_NULL, null=True)
+    image_type = models.CharField(max_length=125, choices=CommonType)
+
 
 #Banner --------------------------------------------------------------------------------------
 class Banner(models.Model):
@@ -58,6 +59,6 @@ class Banner(models.Model):
 
 
 class BackgroundBanner(models.Model):
-    is_image = models.BooleanField()
+    is_image = models.BooleanField(default=False)
     image = models.ManyToManyField(Image, through=BackBannerThourghtImage)
     background_color = models.CharField(max_length=10)

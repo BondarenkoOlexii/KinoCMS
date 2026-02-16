@@ -6,7 +6,7 @@ from src.adminpanel.models.FilmChoise import FilmChoises
 class FilmForm(forms.ModelForm):
     class Meta:
         model = Film
-        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'trailer', 'type', 'start_time']
+        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'trailer', 'type', 'start_time', 'end_time']
 
         exclude = ('seoblock', 'image', )
 
@@ -19,7 +19,8 @@ class FilmForm(forms.ModelForm):
 
             'trailer': forms.URLInput(attrs={'class': 'form-control'}),
             'type': forms.RadioSelect(choices=FilmChoises),
-            'start_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"'})
+            'start_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"'}),
+            'end_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"'})
         }
 
 class SeoForm(forms.ModelForm):

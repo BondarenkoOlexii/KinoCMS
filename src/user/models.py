@@ -16,4 +16,4 @@ class User(AbstractUser):
     create_date = models.DateTimeField(auto_now_add=True)
     language = models.CharField(max_length=2, choices=Language.choices, default=Language.choices[0][0])
     sex = models.CharField(max_length=5, choices=Sex.choices, default=Sex.choices[0][0])
-    credit_card = models.CharField(max_length=16, unique=True)
+    credit_card = models.CharField(max_length=16, unique=True, null=True, blank=True)

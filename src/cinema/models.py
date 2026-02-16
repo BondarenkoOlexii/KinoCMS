@@ -28,7 +28,8 @@ class Film(models.Model):
   name = models.CharField(max_length=225)
   description = models.TextField()
   trailer = models.URLField()
-  start_time = models.DateTimeField()
+  start_time = models.DateField()
+  end_time = models.DateField()
   image = models.ManyToManyField(Image, through=FilmThourghtImage)
   seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
   type = models.CharField(max_length=10,

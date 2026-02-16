@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="w-100">
+    <h2 class="text-center fw-bold display-5 mb-0">
+        В прокаті
+    </h2>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-start">
+        {% for form in afisha_image_items %}
+            {% if form.image_type == "logo" %}
+                <div class="col-lg-3 col-md-6 mb-4 ">
+                    <div class="card h-100 shadow-sm border-0 cinema-hover-card border-0 text-white" style="border-radius: 15px; background-color: #212529; overflow: hidden; position: relative;">
+                        <div class="card-body d-flex flex-column align-items-center text-center p-4">
+
+                            <div class="logo-container mb-3 d-flex align-items-center justify-content-center" style="height: 200px; width: 350;">
+                                <a href="{% url 'film_page' form.images_info.id %}">
+                                    <img src="{{ form.image.photo.url }}"
+                                         class="img-fluid rounded"
+                                         style="max-height: 100px; object-fit: contain;"
+                                         alt="{{ form.images_info.name }}">
+                                </a>
+                            </div>
+                            <h5 class="fw-bold mt-auto">
+                                <a href="{% url 'film_page' form.images_info.id %}" class="text-decoration-none stretched-link" style="color: #ffffff">
+                                    {{ form.images_info.name }}
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="w-100">
+    <h2 class="text-center fw-bold display-5 mb-0">
+        Скоро
+    </h2>
+</div>
+
+<div class="col-lg-3 col-md-6 mb-4">
+    {% for form in soon_image_items %}
+        {% if form.image_type == "logo" %}
+            <div class="card h-100 shadow-sm border-0 cinema-hover-card" style="border-radius: 15px; overflow: hidden;">
+                <div class="card-body d-flex flex-column align-items-center text-center p-4">
+
+                            <div class="logo-container mb-3 d-flex align-items-center justify-content-center" style="height: 120px; width: 100%;">
+                                <a href="{% url 'cinema_pages' form.images_info.id %}">
+                                    <img src="{{ form.image.photo.url }}"
+                                         class="img-fluid rounded"
+                                         style="max-height: 100px; object-fit: contain;"
+                                         alt="{{ form.images_info.name }}">
+                                </a>
+                            </div>
+
+                            <h5 class="fw-bold mt-auto">
+                                <a href="{% url 'film_page' form.images_info.id %}" class="text-dark text-decoration-none stretched-link">
+                                    {{ form.images_info.name }}
+                                </a>
+                            </h5>
+
+
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

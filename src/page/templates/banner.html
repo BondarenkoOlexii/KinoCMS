@@ -27,110 +27,211 @@
                                 </div>
 
                                 <div class="row g-3">
-                                    <div class="col-12">
-                                        <label class="form-label">Description</label>
-                                        <div class="input-group has-validation">
-                                            {{form.type}}
-                                        </div>
+                                    <div class="col-12" style="displa: none"><input type="hidden" name="{{form.prefix}}-type" value="main"></div>
+                                    <div>
+                                        {{form.speed_button}}
                                     </div>
-
                                    <div>
-                                        {{image_formset.management_form}}
-                                        <div id="logo" data-type="logo">
-                                            <h3> Логотип </h3>
-                                            <div id="forms-container-logo" class="forms-container">
-                                                {% for form in image_formset %}
+                                       <div class="card-body">
+                                           <div id="main-section" class="mb-5">
+                                               <h3>Лого</h3>
 
-                                                {% if form.instance.image_type == 'logo' or form.initial.image_type == 'logo' %}
-                                                    <div class="gallery-form">
-                                                        {{ form.id }}<div style="display: none;"> {{form.DELETE}} </div>
-                                                         <label class="delete-button">
-                                                                <button type="button" class="delete-form-button">
-                                                                <span class="material-symbols-outlined">cancel</span>
+                                               <div class="formset-section">{{ main_formset.management_form }}
+                                                   <div id="forms-container-main" style="width: 200px">
+                                                       {% for form in main_formset %}
+                                                       <div class="gallery-form">
+                                                           {{ form.id }}
+                                                           <div style="display: none">{{form.DELETE}}</div>
+                                                               <label class="delete-button">
+                                                                   <button type="button" class="delete-form-button">
+                                                                       <span class="material-symbols-outlined">cancel</span>
+                                                                   </button>
+                                                               </label>
+
+                                                                <label for="{{ form.image.id_for_label }}" class="custom-upload">
+                                                                    {{form.image}}
+                                                                    <input type="hidden" name="{{ form.prefix }}-image_type" value="gallery">
+                                                                    <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %}" class="preview-img">
+                                                                </label>
+                                                                <label>
+                                                                    {{ form.text }}
+                                                                    {{ form.url }}
+                                                                </label>
+                                                           </div>
+                                                       {% endfor %}
+                                                   </div>
+
+                                                   <div id="empty-main-template" style="display: none">
+                                                        <div class="gallery-form">
+                                                            <button type="button" class="delete-form-button">
+                                                                <span>Delete</span>
                                                             </button>
-                                                         </label>
 
+                                                            <label class="custom-upload" style="cursor: pointer; display: block;">
 
-                                                        <label for="{{ form.image.id_for_label }}" class="custom-upload">
-                                                            {{form.image}}
-                                                            <input type="hidden" name="{{ form.prefix }}-image_type" value="logo" class="type-input">
-                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
-                                                        </label>
+                                                                {{ main_formset.empty_form.image }}
+
+                                                                <input type="hidden" name="main-__prefix__-image_type" value="logo">
+
+                                                                <img src="" class="preview-img" style="display: none; pointer-events: none;">
+
+                                                                <div class="upload-placeholder">Натисніть, щоб обрати фото</div>
+                                                            </label>
+
+                                                            <label>
+                                                                {{ main_formset.empty_form.text }}
+                                                                {{ main_formset.empty_form.url }}
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                            </div>
-                                        </div>
-
-                                        <div id="banner" data-type="banner">
-                                            <h3> Баннер </h3>
-                                            <div id="forms-container-banner" class="forms-container">
-                                                {% for form in image_formset %}
-
-                                                {% if form.instance.image_type == 'banner' or form.initial.image_type == 'banner' %}
-                                                    <div class="gallery-form">
-                                                        {{ form.id }}<div style="display: none;"> {{form.DELETE}} </div>
-                                                         <label class="delete-button">
-                                                                <button type="button" class="delete-form-button">
-                                                                <span class="material-symbols-outlined">cancel</span>
-                                                            </button>
-                                                         </label>
+                                                </div>
+                                                <button type="button" class="btn btn-secondary add-form-btn" data-container="forms-container-main" data-template="empty-main-template">
+                                                    Добавить Изображение
+                                                </button>
+                                           </div>
+                                       </div>
 
 
-                                                        <label for="{{ form.image.id_for_label }}" class="custom-upload">
-                                                            {{form.image}}
-                                                            <input type="hidden" name="{{ form.prefix }}-image_type" value="banner" class="type-input">
-                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
-                                                        </label>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                            </div>
-                                        </div>
-
-
-                                        <div id="gallery" data-type="gallery">
-                                            <h3> ГАЛЕРЕЯ </h3>
-                                            <div id="forms-container-gallery" class="forms-container">
-                                                {% for form in image_formset %}
-                                                {% if form.instance.image_type == 'gallery' or form.initial.image_type == 'gallery' %}
-                                                    <div class="gallery-form">
-                                                        {{ form.id }} <div style="display: none;"> {{form.DELETE}} </div>
-                                                         <label class="delete-button">
-                                                                <button type="button" class="delete-form-button">
-                                                                <span class="material-symbols-outlined">cancel</span>
-                                                            </button>
-                                                         </label>
-
-
-                                                        <label for="{{ form.image.id_for_label }}" class="custom-upload">
-                                                            {{form.image}}
-                                                            <input type="hidden" name="{{ form.prefix }}-image_type" value="gallery" class="type-input">
-                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
-                                                        </label>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                            </div>
-
-                                            <div id="empty-formset" class="hidden" style="display:none">
-                                                 <label class="delete-button">
-                                                    <button type="button" class="delete-form-button">
-                                                        <span class="material-symbols-outlined">cancel</span>
-                                                    </button>
-                                                 </label>
-                                                <label for="{{ image_formset.empty_form.image.id_for_label }}" class="custom-upload">
-                                                    {{ image_formset.empty_form.image }}
-                                                    <input type="hidden" name="image-__prefix__-image_type" value="gallery">
-                                                    <img src="" class="preview-img">
-                                                </label>
-                                            </div>
-
-                                            <button id="add-form" type="button">Добавить Изображение</button>
-                                        </div>
                                     </div>
 
-                                <button class="w-100 btn btn-primary btn-lg" type="submit">Зберегти</button>
+                                <button class="w-100 btn btn-primary btn-lg" type="submit" name="save_main">Зберегти</button>
+                            </form>
+                        </div>
+
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+                                        <h2 class="card-title w-100" >Форма для створення</h2>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="radio-banner-group d-flex justify-content-between align-items-start">
+                                        {% for radio in back_form.is_image %}
+                                                <label class="container">
+                                                    {{radio.tag}}<span class="checkmark"></span> <span class="label-text"> {{radio.choice_label}}</span>
+                                                </label>
+                                                {% if radio.choice_label == 'Зображення' %}
+                                                    <div class="display">
+                                                        <div style="{% if form.is_image.value != 'True' %}display: none{% endif %}"></div>
+                                                        <div class="card-body">
+                                                           <div id="back-section" class="mb-5">
+                                                               <h3>Лого</h3>
+                                                               <div class="formset-section">{{ back_formset.management_form }}
+                                                                   <div id="forms-container-back" style="width: 200px">
+                                                                       {% for form in back_formset %}
+                                                                           <div class="gallery-form">
+                                                                               {{ form.id }}
+                                                                               <div style="display: none">{{form.DELETE}}</div>
+                                                                               <label class="delete-button">
+                                                                                   <button type="button" class="delete-form-button">
+                                                                                       <span class="material-symbols-outlined">cancel</span>
+                                                                                   </button>
+                                                                               </label>
+                                                                               <label for="{{ form.image.id_for_label }}" class="custom-upload">
+                                                                                    {{form.image}}
+                                                                                    <input type="hidden" name="{{ form.prefix }}-image_type" value="banner">
+                                                                                    <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %}" class="preview-img">
+                                                                               </label>
+                                                                            </div>
+                                                                       {% endfor %}
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                        </div>
+                                                {% endif %}
+
+                                                {% if radio.choice_label == 'Колір' %}
+                                                    <div style="{% if form.is_image.value != 'False' %}display: none{% endif %}"></div>
+                                                    {{ back_form.background_color }}
+                                                {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                   </div>
+                                <button class="w-100 btn btn-primary btn-lg" type="submit" name="save_back">Зберегти</button>
+                            </form>
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-header text-center">
+                                    <div class="py-3">
+                                        <h2 class="card-title w-100" >Форма для створення</h2>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-12" style="displa: none"><input type="hidden" name="{{form.prefix}}-type" value="stock"></div>
+                                    <div>
+                                        {{form.speed_button}}
+                                    </div>
+                                   <div>
+                                       <div class="card-body">
+                                           <div id="gallery-section" class="mb-5">
+                                               <h3>Новини</h3>
+
+                                               <div class="formset-section">{{ stock_formset.management_form }}
+                                                   <div id="forms-container-stock" style="width: 200px">
+                                                       {% for form in stock_formset %}
+                                                       <div class="gallery-form">
+                                                           {{ form.id }}
+                                                           <div style="display: none">{{form.DELETE}}</div>
+                                                               <label class="delete-button">
+                                                                   <button type="button" class="delete-form-button">
+                                                                       <span class="material-symbols-outlined">cancel</span>
+                                                                   </button>
+                                                               </label>
+
+                                                                <label for="{{ form.image.id_for_label }}" class="custom-upload">
+                                                                    {{form.image}}
+                                                                    <input type="hidden" name="{{ form.prefix }}-image_type" value="gallery">
+                                                                    <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %}" class="preview-img">
+                                                                </label>
+                                                                <label>
+                                                                    {{ form.url }}
+                                                                </label>
+                                                           </div>
+                                                       {% endfor %}
+                                                   </div>
+
+                                                   <div id="empty-stock-template" style="display: none">
+                                                        <div class="gallery-form">
+                                                            <button type="button" class="delete-form-button">
+                                                                <span>Delete</span>
+                                                            </button>
+
+                                                            <label class="custom-upload" style="cursor: pointer; display: block;">
+
+                                                                {{ stock_formset.empty_form.image }}
+
+                                                                <input type="hidden" name="stock-__prefix__-image_type" value="gallery">
+
+                                                                <img src="" class="preview-img" style="display: none; pointer-events: none;">
+
+                                                                <div class="upload-placeholder">Натисніть, щоб обрати фото</div>
+                                                            </label>
+
+                                                            <label>
+                                                                {{ stock_formset.empty_form.url }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-secondary add-form-btn" data-container="forms-container-stock" data-template="empty-stock-template">
+                                                    Добавить Изображение
+                                                </button>
+                                           </div>
+                                       </div>
+
+
+                                    </div>
+
+                                <button class="w-100 btn btn-primary btn-lg" type="submit" name="save_stock">Зберегти</button>
                             </form>
                         </div>
                     </div>
@@ -139,5 +240,5 @@
 
         </div>
     </div>
-    <script src="{% static 'dist/js/image_formset.js' %}"></script>
+    <script src="{% static 'dist/js/banner_image_formset.js' %}"></script>
 {% endblock %}

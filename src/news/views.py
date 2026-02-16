@@ -7,7 +7,7 @@ from src.common.models import SeoBlock
 
 # Create your views here.
 
-def news_stocks(request):
+def news_stocks(request, content_type):
     if request.method == 'POST':
         form = NewsForm(request.POST, prefix='news_stocks')
         seoform = SeoForm(request.POST, prefix='seo')
@@ -21,6 +21,8 @@ def news_stocks(request):
                 news_instence = form.save(commit=False)  # Створюємо об'єкт для збереження, але не закидуємо його в бд
 
                 news_instence.seoblock = seo_instence  # Прив'язуємо запис SEOBLOCK до news
+
+                news_instence.type = content_type
 
                 news_instence.save()  # А тепер уже зберігаємо news в базі данних
 
@@ -59,12 +61,12 @@ def news_stocks(request):
     return render(request, 'news_stocks.html', context)
 
 
-def table_news(request):
-    items = NewsStockModel.objects.all()
-    return render(request, 'table_news_stocks.html', {'items': items})
+def table_news(request, content_type):
+    items = NewsStockModel.objects.filter(type=content_type)
+    return render(request, 'table_news_stocks.html', {'items': items, 'content_type': content_type})
 
 
-def table_news_delete(request, pk):
+def table_news_delete(request, pk, content_type):
     delete_item = NewsStockModel.objects.get(id=pk)
     delete_item_seo = SeoBlock.objects.get(newsstockmodel=delete_item)
 
@@ -79,10 +81,10 @@ def table_news_delete(request, pk):
     delete_item.delete()
 
 
-    return redirect('table_news_stocks')
+    return redirect('table_news_stocks', content_type=content_type)
 
 
-def update_news(request, pk):
+def update_news(request, pk, content_type):
     item = NewsStockModel.objects.get(id=pk)
     seo_item = SeoBlock.objects.get(newsstockmodel=item)
     if request.method == 'POST':
@@ -95,6 +97,7 @@ def update_news(request, pk):
             seoform_instance = seoform.save()
             form_instance = form.save(commit=False)
             form_instance.seoblock = seoform_instance
+            form_instance.type = content_type
             form_instance.save()
 
             for form in image_formset.forms:
@@ -132,7 +135,7 @@ def update_news(request, pk):
 
                     thourgh_form.save()
 
-            return redirect('table_news_stocks')
+            return redirect('table_news_stocks', content_type=content_type)
     if request.method == 'GET':
         form = NewsForm(instance=item, prefix='news_stocks')
         seoform = SeoForm(instance=seo_item, prefix='seo')
@@ -140,4 +143,4 @@ def update_news(request, pk):
 
     return render(request, 'news_stocks.html',
                   {'item': item, 'seo_item': seo_item, 'news_form': form, 'seo_form': seoform,
-                   'image_formset': image_formset})
+                   'image_formset': image_formset, 'content_type': content_type})

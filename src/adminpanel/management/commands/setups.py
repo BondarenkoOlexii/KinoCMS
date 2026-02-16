@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from src.page.models import MainPage, Page
+from src.page.models import MainPage, Page, Contacts, PageThourghtImage
 from src.cinema.models import Cinema, Hall, CinemaThourghtImage
 from src.common.models import Image
 
@@ -11,11 +11,16 @@ from django.conf import settings
 class Command(BaseCommand):
     def handle(self, *args, **options):
         self.setup_main_page()
-        self.setup_pages()
+        pages = self.setup_pages()
         cinema = self.setup_cinema()
         image = self.setup_image()
+
         if image:
             self.thourd_cinema_img(image, cinema)
+            self.setup_contact_page(image)
+            for page in pages:
+                self.thourg_pages_image(image, page)
+
         self.setup_hall(cinema)
 
         self.stdout.write(self.style.SUCCESS("БАЗОВІ СТОРІНКО СТВОРЕНО"))
@@ -25,8 +30,15 @@ class Command(BaseCommand):
         main_page, create = MainPage.objects.get_or_create(id=1,
                                                            defaults={'id': 1, 'number_phone': '+380931111111', 'seo_text': 'ABC'})
 
+    def setup_contact_page(self, img):
+        contact_page, create = Contacts.objects.get_or_create(id=1,
+                                                              defaults={'id':1, 'name': 'Контакти', 'name_uk_ua':'Контакти', 'adress': 'ABC', 'coordinate': '123', 'image': img, 'image_type': 'logo'})
+
+
 
     def setup_pages(self):
+        created_pages = []
+
         pages = [
             {'id': 2, 'name': 'О кинотеатре', 'name_uk_ua': 'Про Кінотеатр', 'description': 'ABC', 'type' : 'description', 'is_active':True},
             {'id': 3, 'name': 'Реклама', 'name_uk_ua': 'Реклама', 'description': 'ABC', 'type': 'stock', 'is_active': True},
@@ -46,8 +58,11 @@ class Command(BaseCommand):
                     'is_active': True,
                 }
             )
+            created_pages.append(page_obj)
+        return created_pages
 
-
+    def thourg_pages_image(self, img, page):
+        PageThourghtImage.objects.get_or_create(images_info=page, image=img, image_type='logo')
     def setup_image(self):
         img = Path(settings.BASE_DIR) / 'src' / 'static' / 'dist' / 'image' / '1.jpg'
         if img.exists():
@@ -60,6 +75,7 @@ class Command(BaseCommand):
 
     def thourd_cinema_img(self, img, cinema):
         CinemaThourghtImage.objects.get_or_create(images_info=cinema, image=img, image_type='logo')
+
 
 
     def setup_cinema(self):

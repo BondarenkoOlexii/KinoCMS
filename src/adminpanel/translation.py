@@ -2,7 +2,7 @@ from modeltranslation.translator import register, TranslationOptions
 from src.cinema.models import Film, Cinema, Hall
 from src.news.models import NewsStockModel
 from src.user.models import User
-from src.page.models import Page, MainPage
+from src.page.models import Page, MainPage, Contacts
 
 
 @register(Film)
@@ -31,5 +31,9 @@ class CategoryTranslationOptions(TranslationOptions):
 @register(Page)
 class CategoryTranslationOptions(TranslationOptions):
     fields = ('name', 'description')
+
+@register(Contacts)
+class CategoryTranslationOptions(TranslationOptions):
+    fields = ('name', 'adress')
 
 
