@@ -1,8 +1,16 @@
-from django.shortcuts import render, redirect
-from src.cinema.forms import FilmForm, SeoForm, ImageForm, FilmImagesFormSet, CinemaForm, CinemaImagesFormSet, HallForm, HallImagesFormSet
-from src.cinema.models import Film, FilmThourghtImage, Cinema, CinemaThourghtImage, Hall, HallThourghtImage
+from collections import deque
+
+from django.utils import timezone
+from datetime import timedelta, datetime, time, date
+
+from django.shortcuts import render, redirect, get_object_or_404
+from src.cinema.forms import FilmForm, SeoForm, ImageForm, FilmImagesFormSet, CinemaForm, CinemaImagesFormSet, HallForm, \
+    HallImagesFormSet
+from src.cinema.models import Film, FilmThourghtImage, Cinema, CinemaThourghtImage, Hall, HallThourghtImage, Session
 from src.common.models import Image
 from src.common.models import SeoBlock
+
+
 # Create your views here.
 
 def film(request):
@@ -10,7 +18,6 @@ def film(request):
         {'image_type': 'logo'},
         {'image_type': 'gallery'}
     ]
-
 
     if request.method == 'POST':
         form = FilmForm(request.POST, prefix='film')
@@ -87,6 +94,7 @@ def delete_film(request, pk):
 
     return redirect('table_film')
 
+
 def update_film(request, pk):
     item = Film.objects.get(id=pk)
     seo_item = SeoBlock.objects.get(film=item)
@@ -110,22 +118,23 @@ def update_film(request, pk):
                             obj.image.delete()
                         obj.delete()
 
-
             for form in image_formset:
 
-                if not form.has_changed():                           # Перевіряємо чи трогав щось користувач в формсеті
-                        continue                                     # Пропускаємо ітерацію якщо нічого не трогав
-                image_file = form.cleaned_data.get('image')          # Якщо, все ж падло щось потрогало то достаємо картінку і тримаємо її
+                if not form.has_changed():  # Перевіряємо чи трогав щось користувач в формсеті
+                    continue  # Пропускаємо ітерацію якщо нічого не трогав
+                image_file = form.cleaned_data.get(
+                    'image')  # Якщо, все ж падло щось потрогало то достаємо картінку і тримаємо її
 
-                if image_file:                                        # Перевіряємо чи картінка не пуста
+                if image_file:  # Перевіряємо чи картінка не пуста
 
-                    if not form.instance.image_id:                   # Якщо вона не пуста і користувач ДОДАВ картинку
-                        update_image = Image.objects.create(photo=image_file)                      # Записуємо цю картинку в Image і тримаємо її id
+                    if not form.instance.image_id:  # Якщо вона не пуста і користувач ДОДАВ картинку
+                        update_image = Image.objects.create(
+                            photo=image_file)  # Записуємо цю картинку в Image і тримаємо її id
 
-                    else:                                                       # Якщо оказалось що він просто змінив стару картінку
-                        form.instance.image.photo = image_file                                                     # Міняємо картінку  на нову
+                    else:  # Якщо оказалось що він просто змінив стару картінку
+                        form.instance.image.photo = image_file  # Міняємо картінку  на нову
 
-                        form.instance.image.save()                        # Зберігаємо цю картінку
+                        form.instance.image.save()  # Зберігаємо цю картінку
 
                         update_image = form.instance.image
 
@@ -148,11 +157,11 @@ def update_film(request, pk):
                    'image_formset': image_formset})
 
 
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
 
 def cinema(request):
     initial_data = [
@@ -166,13 +175,13 @@ def cinema(request):
         seoform = SeoForm(request.POST, prefix='seo')
         image_formset = CinemaImagesFormSet(request.POST, request.FILES, prefix='image')  # Імейдж Формсет
 
-
         if cinema_form.is_valid() and seoform.is_valid() and image_formset.is_valid():
             try:
 
                 seo_instence = seoform.save()  # Зберігаємо seoform в базі данних а seo_instence тепер тримає в собі id цього запису
 
-                cinema_instence = cinema_form.save(commit=False)  # Створюємо об'єкт для збереження, але не закидуємо його в бд
+                cinema_instence = cinema_form.save(
+                    commit=False)  # Створюємо об'єкт для збереження, але не закидуємо його в бд
 
                 cinema_instence.seoblock = seo_instence  # Прив'язуємо запис SEOBLOCK до news
 
@@ -213,7 +222,6 @@ def cinema(request):
         for f in image_formset:
             print(f"Form initial: {f.initial}")
 
-
     context = {
         'form': cinema_form,
         'seo_form': seoform,
@@ -222,10 +230,12 @@ def cinema(request):
 
     return render(request, 'cinema.html', context)
 
+
 def table_cinema(request):
     items = Cinema.objects.all()
     image_items = CinemaThourghtImage.objects.all()
-    return render(request, 'table_cinema.html', {'items': items, 'image_items': image_items })
+    return render(request, 'table_cinema.html', {'items': items, 'image_items': image_items})
+
 
 def delete_cinema(request, pk):
     delete_item = Cinema.objects.get(id=pk)
@@ -241,6 +251,7 @@ def delete_cinema(request, pk):
     delete_item.delete()
 
     return redirect('table_cinema')
+
 
 def update_cinema(request, pk):
     item = Cinema.objects.get(id=pk)
@@ -275,7 +286,8 @@ def update_cinema(request, pk):
                 if image_file:  # Перевіряємо чи картінка не пуста
 
                     if not form.instance.image_id:  # Якщо вона не пуста і користувач ДОДАВ картинку
-                        update_image = Image.objects.create(photo=image_file)  # Записуємо цю картинку в Image і тримаємо її id
+                        update_image = Image.objects.create(
+                            photo=image_file)  # Записуємо цю картинку в Image і тримаємо її id
 
                     else:  # Якщо оказалось що він просто змінив стару картінку
                         form.instance.image.photo = image_file  # Міняємо картінку  на нову
@@ -301,19 +313,19 @@ def update_cinema(request, pk):
 
     return render(request, 'cinema.html',
                   {'item': item, 'seo_item': seo_item, 'form': form, 'seo_form': seoform,
-                   'image_formset': image_formset, 'items':items})
+                   'image_formset': image_formset, 'items': items})
 
 
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------
 
 
 # ПОТРІБНО ПРИДУМАТИ ЯК ПЕРЕДАВАТИ CINEMA ID В HALL !!!!!!!!!!!!!!!!!!!!!!!
-def hall(request, cinema_id):
-    cinema_obj = Cinema.objects.get(id=cinema_id)
+def hall(request, cinema_pk):
+    cinema_obj = Cinema.objects.get(id=cinema_pk)
 
     initial_data = [
         {'image_type': 'logo'},
@@ -331,7 +343,8 @@ def hall(request, cinema_id):
 
                 seo_instence = seoform.save()  # Зберігаємо seoform в базі данних а seo_instence тепер тримає в собі id цього запису
 
-                hall_instence = hall_form.save(commit=False)  # Створюємо об'єкт для збереження, але не закидуємо його в бд
+                hall_instence = hall_form.save(
+                    commit=False)  # Створюємо об'єкт для збереження, але не закидуємо його в бд
 
                 hall_instence.seoblock = seo_instence  # Прив'язуємо запис SEOBLOCK до news
 
@@ -374,7 +387,6 @@ def hall(request, cinema_id):
         seoform = SeoForm(prefix='seo')
         image_formset = HallImagesFormSet(initial=initial_data, prefix='image')
 
-
     context = {
         'hall_form': hall_form,
         'seo_form': seoform,
@@ -402,7 +414,8 @@ def delete_hall(request, pk):
 
     return redirect('delete_cinema', pk=cinema_id)
 
-def update_hall(request,cinema_pk, hall_pk):
+
+def update_hall(request, cinema_pk, hall_pk):
     print("ФУНКЦІЯ СПРАЦЬОВАЛА")
     item = Hall.objects.get(id=hall_pk)
     seo_item = SeoBlock.objects.get(hall=item)
@@ -464,3 +477,76 @@ def update_hall(request,cinema_pk, hall_pk):
     return render(request, 'hall.html',
                   {'item': item, 'seo_item': seo_item, 'hall_form': form, 'seo_form': seoform,
                    'image_formset': image_formset})
+
+
+###########################################################################################################
+
+
+def sheduls(request):
+
+    session_items = Session.objects.all()
+
+    all_cinemas = Cinema.objects.all()
+
+    selected_cinema = None
+
+    today = timezone.now().date()
+
+    if request.method == 'POST':
+        choosed_cinema = request.POST.get('cinema_id')
+        choosed_count_date = request.POST.get('count_date')
+        choosed_start_date = request.POST.get('start_date')
+
+        base_date = date.fromisoformat(choosed_start_date)
+
+        print(choosed_start_date)
+
+        if choosed_cinema:
+            cinema_item = Cinema.objects.filter(id=choosed_cinema).first()
+            hall_items = Hall.objects.filter(cinema_id=cinema_item)
+
+            for item in range(int(choosed_count_date)):
+
+                start_date = base_date + timedelta(days=item)
+
+                today_in_for = start_date + timedelta(days=int(item))
+
+                film_queryset = Film.objects.filter(start_time__lte=today_in_for, end_time__gte=today_in_for).distinct()
+
+                films_queue = deque(film_queryset)
+
+
+                for current_hall in hall_items:
+
+                    start_day_time = datetime.combine(today_in_for, time(8, 0))
+                    end_day_time = datetime.combine(today_in_for, time(22, 0))
+
+                    while start_day_time <= end_day_time:
+                        current_film = films_queue[0]
+
+                        Session.objects.create(
+                            hall_id=current_hall,
+                            film_id=current_film,
+                            start_time=start_day_time,
+                            day=start_date,
+                            price=50,
+
+                        )
+
+                        film_duration = int((current_film.duration.hour * 60) + current_film.duration.minute)
+                        start_day_time += timedelta(minutes=film_duration + 20)
+
+                        films_queue.rotate(-1)
+
+        return redirect('schedule')
+
+    else:
+
+        selected_cinema_ids = request.GET.get('cinema_id')
+
+        if selected_cinema_ids:
+            selected_cinema = get_object_or_404(Cinema, id=selected_cinema_ids)
+
+    context = {'all_cinemas': all_cinemas, 'selected_cinema': selected_cinema, 'items': session_items}
+
+    return render(request, 'shedules.html', context)

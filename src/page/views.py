@@ -242,10 +242,15 @@ def work_formset(formset, img_type, main_obj):
         if form.cleaned_data and not form.cleaned_data.get('DELETE'):
             image_file = form.cleaned_data.get('image')
 
+
+            if not form.instance.pk and not image_file:
+                continue
+
             if not form.has_changed() and form.instance.pk:
                 continue
 
             instance = form.save(commit=False)
+
             if image_file:
                 if not instance.image_id:
                     instance.image = Image.objects.create(photo=image_file)
@@ -264,8 +269,16 @@ def banner(request):
 
     banner_obj, _ = Banner.objects.get_or_create(id=1)
     back_banner_obj, _ = BackgroundBanner.objects.get_or_create(id=1)
+
     stock_queryset = banner_obj.bannerthourghtimage_set.filter(image_type='stock')
     main_queryset = banner_obj.bannerthourghtimage_set.filter(image_type='main')
+
+    banner_form = BannerForm(instance=banner_obj, prefix='banner')
+    back_banner_form = BackBannerForm(instance=back_banner_obj, prefix='backbanner')
+
+    main_formset = BannerImagesFormSet(instance=banner_obj, prefix="main", queryset=main_queryset)
+    stock_formset = BannerImagesFormSet(instance=banner_obj, prefix="stock", queryset=stock_queryset)
+    back_formset = BackBannerImagesFormSet(instance=back_banner_obj, prefix="back")
 
 
     if request.method == 'POST':
@@ -282,10 +295,6 @@ def banner(request):
                 work_formset(main_formset, 'main', saved_banner)
                 return redirect('banner')
 
-            else:
-                print(banner_form.errors, main_formset.errors)
-                stock_formset = BannerImagesFormSet(instance=banner_obj, prefix="stock")
-                back_formset = BackBannerImagesFormSet(instance=back_banner_obj, prefix="back")
 
         elif "save_stock" in request.POST:
             print("SAVE STOCK")
@@ -295,24 +304,15 @@ def banner(request):
                 saved_banner = banner_form.save()
                 work_formset(stock_formset, 'stock', saved_banner)
                 return redirect('banner')
-            else:
-                main_formset = BannerImagesFormSet(instance=banner_obj, prefix="main", queryset=main_queryset)
-                back_formset = BackBannerImagesFormSet(instance=back_banner_obj, prefix="back")
-                print(banner_form.errors, stock_formset.errors)
+
 
         elif "save_back" in request.POST:
             print("SAVE BACK")
             back_formset = BackBannerImagesFormSet(request.POST, request.FILES, instance=back_banner_obj, prefix="back")
-            if banner_form.is_valid() and back_formset.is_valid():
+            if back_banner_form.is_valid() and back_formset.is_valid():
                 print("VSE VALID BACK")
-                saved_banner = banner_form.save()
+                saved_banner = back_banner_form.save()
                 work_formset(back_formset, 'back', saved_banner)
-
-            else:
-                main_formset = BannerImagesFormSet(instance=banner_obj, prefix="main", queryset=main_queryset)
-                stock_formset = BannerImagesFormSet(instance=banner_obj, prefix="stock", queryset=stock_queryset)
-                back_formset = BackBannerImagesFormSet(instance=back_banner_obj, prefix="back")
-                print(main_formset.errors, stock_formset.errors)
 
     if request.method == 'GET':
         print("REQUEST GET")

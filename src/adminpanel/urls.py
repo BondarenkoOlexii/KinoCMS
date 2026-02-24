@@ -3,7 +3,7 @@ from .views import dashboard, theme
 from src.news.views import news_stocks, table_news, table_news_delete, update_news
 from src.page.views import page, banner, table_page, update_pages, delete_pages, update_main_page, update_contact_page
 from src.user.views import user, table_user, update_user, delete_user, distribution, choise_users, delete_file, progress_view
-from src.cinema.views import film, cinema, hall, table_film, table_cinema, update_film, update_cinema, update_hall, delete_film, delete_cinema, delete_hall
+from src.cinema.views import film, cinema, hall, sheduls, table_film, table_cinema, update_film, update_cinema, update_hall, delete_film, delete_cinema, delete_hall
 from src.authorization.views import logout_user
 
 
@@ -14,9 +14,10 @@ urlpatterns = [
     path('page.html', page, name='pages'),
     path('admin_users.html', user, name='admin_users'),
     path('film.html', film, name='film'),
+    path('shedules', sheduls, name='schedule'),
     path('banner.html', banner, name='banner'),
     path('cinema.html', cinema, name='cinema'),
-    path('cinema/hall.html/<int:cinema_id>', hall, name='hall'),
+    path('cinema/update/<int:cinema_pk>/hall.html/', hall, name='hall'),
     path('distribution.html', distribution, name='distribution'),
     path('choise_users.html', choise_users, name='choise_users'),
     path('progress_view/<str:task_id>/', progress_view, name='progress_view'),

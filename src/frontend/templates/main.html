@@ -3,6 +3,38 @@
 
 {% block content %}
 
+<div class="container-fluid px-0 mb-5">
+    <div id="cinemaGallery" class="carousel slide shadow-sm bg-white" data-bs-ride="carousel" style="border-radius: 8px;">
+        <h3 class="fw-bold text-dark mb-4 text-center">Галерея</h3>
+        <div class="carousel-inner">
+            {% for form in afisha_image_items_first %}
+                {% if form.image_type == 'gallery' %}
+                    <div class="carousel-item {% if not gallery_started %}active{% endif %}">
+                        <div class="gallery-slide-container" style="height: 400px; position: relative;">
+                            <a href="{% url 'film_page' form.images_info.id %}">
+                                <img src="{{ form.image.photo.url }}" class="w-100 h-100 gallery-img" style="background: #f8f9fa;" alt="Gallery Image">
+                            </a>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2 class="display-4 fw-bold text-dark">{{ form.images_info.name }}</h2>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#cinemaGallery" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#cinemaGallery" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
 
 <div class="w-100">
     <h2 class="text-center fw-bold display-5 mb-0">
@@ -16,21 +48,23 @@
             {% if form.image_type == "logo" %}
                 <div class="col-lg-3 col-md-6 mb-4 ">
                     <div class="card h-100 shadow-sm border-0 cinema-hover-card border-0 text-white" style="border-radius: 15px; background-color: #212529; overflow: hidden; position: relative;">
+                        <div class="logo-container mb-3" style="height: 450px; width: 100%">
+                            <a href="{% url 'film_page' form.images_info.id %}">
+                                <img src="{{ form.image.photo.url }}"
+                                     class="d-block w-100 h-100 gallery-img"
+                                     style="height: 350px; object-fit: cover;"
+                                     alt="{{ form.images_info.name }}">
+                            </a>
+                        </div>
                         <div class="card-body d-flex flex-column align-items-center text-center p-4">
-
-                            <div class="logo-container mb-3 d-flex align-items-center justify-content-center" style="height: 200px; width: 350;">
-                                <a href="{% url 'film_page' form.images_info.id %}">
-                                    <img src="{{ form.image.photo.url }}"
-                                         class="img-fluid rounded"
-                                         style="max-height: 100px; object-fit: contain;"
-                                         alt="{{ form.images_info.name }}">
-                                </a>
-                            </div>
                             <h5 class="fw-bold mt-auto">
                                 <a href="{% url 'film_page' form.images_info.id %}" class="text-decoration-none stretched-link" style="color: #ffffff">
                                     {{ form.images_info.name }}
                                 </a>
                             </h5>
+                            <a href="#" class="btn btn-success btn-sm" style="margin-top: 20px">
+                                <i class="bi bi-plus-lg"></i> Купити Білет
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -49,27 +83,73 @@
     {% for form in soon_image_items %}
         {% if form.image_type == "logo" %}
             <div class="card h-100 shadow-sm border-0 cinema-hover-card" style="border-radius: 15px; overflow: hidden;">
+                <a href="{% url 'cinema_pages' form.images_info.id %}">
+                    <img src="{{ form.image.photo.url }}"
+                         class="card-img-top"
+                         style="height: 150px; width: 400px; object-fit: contain;"
+                         alt="{{ form.images_info.name }}">
+                </a>
                 <div class="card-body d-flex flex-column align-items-center text-center p-4">
-
-                            <div class="logo-container mb-3 d-flex align-items-center justify-content-center" style="height: 120px; width: 100%;">
-                                <a href="{% url 'cinema_pages' form.images_info.id %}">
-                                    <img src="{{ form.image.photo.url }}"
-                                         class="img-fluid rounded"
-                                         style="max-height: 100px; object-fit: contain;"
-                                         alt="{{ form.images_info.name }}">
-                                </a>
-                            </div>
-
-                            <h5 class="fw-bold mt-auto">
-                                <a href="{% url 'film_page' form.images_info.id %}" class="text-dark text-decoration-none stretched-link">
-                                    {{ form.images_info.name }}
-                                </a>
-                            </h5>
-
-
+                    <h5 class="fw-bold mt-auto">
+                        <a href="{% url 'film_page' form.images_info.id %}" class="text-dark text-decoration-none stretched-link">
+                            {{ form.images_info.name }}
+                        </a>
+                    </h5>
                 </div>
             </div>
         {% endif %}
     {% endfor %}
 </div>
-{% endblock %}
+
+<div class="w-100">
+    <h2 class="text-center fw-bold display-5 mb-0">
+        Новости и Акции
+    </h2>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-start">
+        {% for form in stock_images %}
+            {% if form.image_type == "logo" %}
+                <div class="col-lg-3 col-md-6 mb-4 ">
+                    <div class="card h-100 shadow-sm border-0 cinema-hover-card border-0 text-white" style="border-radius: 15px; background-color: #212529; overflow: hidden; position: relative;">
+                        <div class="logo-container mb-3 d-flex align-items-center justify-content-center">
+                            <a href="{% url 'film_page' form.images_info.id %}">
+                                <img src="{{ form.image.photo.url }}"
+                                     class="card-img-top"
+                                     style="height: 350px; object-fit: cover;"
+                                     alt="{{ form.images_info.name }}">
+                            </a>
+                        </div>
+                        <div class="card-body d-flex flex-column align-items-center text-center p-4">
+                            <h5 class="fw-bold mt-auto">
+                                <a href="{% url 'film_page' form.images_info.id %}" class="text-decoration-none stretched-link" style="color: #ffffff">
+                                    {{ form.images_info.name }}
+                                </a>
+                            </h5>
+                            <a href="#" class="btn btn-success btn-sm" style="margin-top: 20px">
+                                <i class="bi bi-plus-lg"></i> Купити Білет
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="position-relative overflow-hidden rounded-4 shadow-lg" style="height: 150px;">
+                <a href="{{ main_banner.url }}">
+                    <img src="{{ main_banner.image.photo.url }}" alt="PROMO" class="w-100 h-100" style="object-fit: cover;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.3);"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} Важка задача, але можеш зробити щоб виглядало красивіше?

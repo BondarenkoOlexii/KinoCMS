@@ -224,7 +224,7 @@
           class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"
         >
           <li><a href="{% url 'afisha' 'afisha' %}" class="nav-link px-2 link-secondary">Афиша</a></li>
-          <li><a href="#" class="nav-link px-2">Расписание</a></li>
+          <li><a href="{% url 'schedule_site' %}" class="nav-link px-2">Расписание</a></li>
           <li><a href="{% url 'afisha' 'soon' %}" class="nav-link px-2">Скоро</a></li>
           <li><a href="{% url 'table_cinema_page' %}" class="nav-link px-2">Кинотеатри</a></li>
           <li><a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link px-2">Акции</a></li>
@@ -250,11 +250,19 @@
               Logout
             </button>
           </a>
-          <a href="{% url 'user_profile' user.id %}">
-            <button type="button" class="btn btn-outline-primary me-2">
-              Profile
-            </button>
-          </a>
+            {% if user.is_superuser %}
+              <a href="adminpanel/">
+                <button type="button" class="btn btn-outline-primary me-2">
+                  AdminPanel
+                </button>
+              </a>
+            {% else %}
+              <a href="{% url 'user_profile' user.id %}">
+                <button type="button" class="btn btn-outline-primary me-2">
+                  Profile
+                </button>
+              </a>
+            {% endif %}
           {% else %}
           <a href="{% url 'account_login' %}">
             <button type="button" class="btn btn-outline-primary me-2">
@@ -272,9 +280,20 @@
 
 
 
-    <main class="container my-4">
-      {% block content %}
-      {% endblock content %}
+    <main class="container my-4 position-relative">
+      <div class="row">
+        <div class="col-12">
+          {% block content %}
+          {% endblock content %}
+        </div>
+
+        <aside class="side-ad-rail d-none d-md-block" style="height: 100%">
+          <div class="sticky-top" style="top: 20px">
+            <img src="{{ads.image.photo.url}}" alt="Реклама" class="img-fluid rounded" style="height: 400px">
+          </div>
+        </aside>
+
+      </div>
     </main>
 
 

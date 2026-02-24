@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form action="" method="GET">
+    <div class="col-md-5">
+        <label class="form-label">Кинотеатр</label>
+
+        <select style="margin-bottom: 30px" name="cinema_id" class="form-select">
+            <option value="">Оберіть Кінотеатр</option>
+            {% for cinema in all_cinema %}
+                <option value="{{cinema.id}}">{{ cinema.name }}</option>
+            {% endfor %}
+        </select>
+        </div>
+
+
+        <label class="form-label">Hall</label>
+        <select class="form-select" name="hall_id">
+            <option value="">Choose...</option>
+            {% for hall in all_cinema_hall %}
+                <option value="{{hall.id}}">{{ hall.name }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="invalid-feedback">
+            Please select a valid country.
+       </div>
+
+        <label class="form-label">Film</label>
+        <select class="form-select" name="film_id">
+            <option value="">Choose...</option>
+            {% for film in all_film %}
+                <option value="{{film.id}}">{{ film.name }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="invalid-feedback">
+            Please select a valid country.
+       </div>
+
+        <label class="form-label">Date</label>
+        <select class="form-select" name="date_id">
+            <option value="">Choose...</option>
+            {% for day in days %}
+                <option value="{{day.id}}">{{ day }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="invalid-feedback">
+            Please select a valid country.
+       </div>
+
+       <div class="form-check">
+           <input id="2D" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="2D">
+           <label class="form-check-label" for="2D">2D</label> </div> <div class="form-check">
+        </div>
+       <div class="form-check">
+           <input id="3D" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="3D">
+           <label class="form-check-label" for="3D">3D</label> </div> <div class="form-check">
+        </div>
+        <div class="form-check">
+           <input id="IMAX" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="IMAX">
+           <label class="form-check-label" for="IMAX">IMAX</label> </div> <div class="form-check">
+        </div>
+
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Застосувати</button>
+        </div>
+
+    </div>
+</form>
+
+<hr class="my-4" />
+    {% for day in days %}
+        <h3>FFFFFFFF</h3>
+        <table class="table table-hover table-striped mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Время</th>
+                    <th>Фильм</th>
+                    <th>Зал</th>
+                    <th>Цена</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    {% if item.day == day %}
+                    <tr>
+                        <td>{{item.start_time }}</td>
+                        <td>{{item.film_id.name}}</td>
+                        <td>{{item.hall_id.name}}</td>
+                        <td>{{item.price}}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+        </table>
+    {% endfor %}
+
+    <hr class="my-4" />
+
+{% endblock %}

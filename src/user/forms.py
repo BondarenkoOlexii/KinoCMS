@@ -23,18 +23,29 @@ class UserForm(UserChangeForm):
             'language': forms.RadioSelect(choices=Language),
             'city': forms.Select(choices=City),
 
-            'date_of_birth': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"'})
+            'date_of_birth': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}, format='%Y-%m-%d')
         }
+
 
 class CustomChangePassword(SetPasswordForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        place_holder = ['Пароль', 'Повторить пароль']
-        index = 0
-        for field in ['password1', 'password2', 'old_password']:
-            if field != 'old_password':
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'placeholder': place_holder[index]})
-                index += 1
+
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+
+
+        place_holders = {
+            'password1': 'Пароль',
+            'password2': 'Повторить пароль'
+        }
+
+        for field_name, text in place_holders.items():
+            if field_name in self.fields:
+                self.fields[field_name].widget.attrs.update({
+                    'class': 'form-control',
+                    'placeholder': text
+                })
 
 
 class NewsletterForm(forms.Form):

@@ -55,7 +55,8 @@ ADMIN_APPS = [
 ]
 
 FRONT_APPS = [
-    'src.frontend.apps.FrontendConfig'
+    'src.frontend.apps.FrontendConfig',
+    'django_filters'
 ]
 
 INSTALLED_APPS += ADMIN_APPS
@@ -84,6 +85,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
+                'src.adminpanel.context_processor.film_ads',
             ],
         },
     },

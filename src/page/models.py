@@ -16,7 +16,7 @@ class PageThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('Page', on_delete=models.CASCADE)
 class BannerThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('Banner', on_delete=models.CASCADE)
-    url = models.URLField()
+    url = models.URLField(null=True, blank=True)
     text = models.TextField(null=True, blank=True)
 class BackBannerThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('BackgroundBanner', on_delete=models.CASCADE)
@@ -61,4 +61,4 @@ class Banner(models.Model):
 class BackgroundBanner(models.Model):
     is_image = models.BooleanField(default=False)
     image = models.ManyToManyField(Image, through=BackBannerThourghtImage)
-    background_color = models.CharField(max_length=10)
+    background_color = models.CharField(max_length=10, default="#808080")

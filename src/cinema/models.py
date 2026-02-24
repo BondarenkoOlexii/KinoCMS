@@ -23,6 +23,7 @@ class Cinema(models.Model):
     seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
 
 
+
 class Film(models.Model):
 
   name = models.CharField(max_length=225)
@@ -30,6 +31,7 @@ class Film(models.Model):
   trailer = models.URLField()
   start_time = models.DateField()
   end_time = models.DateField()
+  duration = models.TimeField()
   image = models.ManyToManyField(Image, through=FilmThourghtImage)
   seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
   type = models.CharField(max_length=10,

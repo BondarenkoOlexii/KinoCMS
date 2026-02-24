@@ -95,3 +95,24 @@ footer {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+
+.position-relative {
+    position: relative;
+  }
+
+  .side-ad-rail {
+    position: absolute;
+    top: 0;
+    /* Виштовхуємо блок за межі контейнера вправо */
+    left: 100%;
+    /* Додаємо невеликий відступ від краю контейнера */
+    margin-left: 20px;
+    width: 160px;
+    height: 100%;
+  }
+
+  /* Налаштовуємо "липкість", щоб реклама їхала за скролом */
+  .side-ad-rail .sticky-top {
+    z-index: 100;
+  }

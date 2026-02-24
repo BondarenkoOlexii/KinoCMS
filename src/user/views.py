@@ -1,6 +1,7 @@
 import os.path
 
 from celery.result import AsyncResult
+from django.contrib.auth import update_session_auth_hash
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse

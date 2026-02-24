@@ -6,7 +6,7 @@ from src.adminpanel.models.FilmChoise import FilmChoises
 class FilmForm(forms.ModelForm):
     class Meta:
         model = Film
-        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'trailer', 'type', 'start_time', 'end_time']
+        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'trailer', 'type', 'start_time', 'end_time', 'duration']
 
         exclude = ('seoblock', 'image', )
 
@@ -19,8 +19,9 @@ class FilmForm(forms.ModelForm):
 
             'trailer': forms.URLInput(attrs={'class': 'form-control'}),
             'type': forms.RadioSelect(choices=FilmChoises),
-            'start_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"'}),
-            'end_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"'})
+            'start_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}),
+            'end_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}),
+            'duration': forms.TimeInput(attrs={'type': 'time', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'})
         }
 
 class SeoForm(forms.ModelForm):
@@ -91,13 +92,16 @@ CinemaImagesFormSet = inlineformset_factory(Cinema, CinemaThourghtImage, ImageFo
 class HallForm(forms.ModelForm):
     class Meta:
         model = Hall
-        fields = ['name', 'description']
+        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru']
 
         exclude = ('seoblock', 'image', )
 
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'col-sm-6"'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'name_uk_ua': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+            'name_ru': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+
+            'description_uk_ua': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'description_ru': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
 
@@ -113,4 +117,4 @@ class HallImageForm(forms.ModelForm):
         fields = ['image_type']
 
 
-HallImagesFormSet = inlineformset_factory(Hall, HallThourghtImage, HallImageForm, extra=2, can_delete=True, )
+HallImagesFormSet = inlineformset_factory(Hall, HallThourghtImage, HallImageForm, extra=2, can_delete=True)

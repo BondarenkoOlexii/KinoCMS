@@ -162,6 +162,12 @@
               </li>
 
               <li class="nav-item">
+                <a href="{% url 'schedule' %}" class="nav-link {% if active_type == 'news' %}active{% endif %}">
+                  <p>Розклад</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
                 <a href="{% url 'table_pages' %}" class="nav-link">
                   <p>{% trans "Страницы" %}</p>
                 </a>

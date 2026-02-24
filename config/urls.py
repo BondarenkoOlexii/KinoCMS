@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile
+from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile, schedule
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,5 +35,6 @@ urlpatterns = [
     path('film_page/<int:pk>', film, name='film_page'),
     path('page/<str:content_type>', pages, name='pages'),
     path('contacts', contact, name='contacts'),
-    path('user_profile/<int:pk>', profile, name='user_profile')
+    path('user_profile/<int:pk>', profile, name='user_profile'),
+    path('schedule', schedule, name='schedule_site')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
