@@ -8,7 +8,6 @@ from src.common.models import ThourghtImage
 
 class CinemaThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('Cinema', on_delete=models.CASCADE)
-
 class HallThourghtImage(ThourghtImage):
     images_info = models.ForeignKey('Hall', on_delete=models.CASCADE)
 class FilmThourghtImage(ThourghtImage):
@@ -44,6 +43,7 @@ class Hall(models.Model):
     name = models.CharField(max_length=225)
     description = models.TextField()
     image = models.ManyToManyField(Image, through=HallThourghtImage)
+    json_file = models.FileField()
     seat_count = models.IntegerField(null=True)
     create_data = models.DateTimeField(auto_now_add=True)
     seoblock = models.OneToOneField(SeoBlock, on_delete=models.SET_NULL, null=True)
@@ -65,7 +65,7 @@ class Session(models.Model):
 class Booking(models.Model):
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE, null=True, blank=True)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     status = models.BooleanField()
     create_time = models.DateTimeField()

@@ -293,6 +293,7 @@
           </div>
         </aside>
 
+
       </div>
     </main>
 
@@ -360,12 +361,16 @@
           </ul>
         </div>
       </footer>
-      <script src="{% static 'dist/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'dist/js/bootstrap.bundle.min.js' %}"></script>
       <script>
         function changeLanguage(langCode) {
             document.getElementById('selected-language').value = langCode;
             document.getElementById('language-form').submit();
         }
       </script>
+     {% block js %}
+
+      <script src="{% static 'dist/js/booking.js' %}"></script>
+     {% endblock %}
   </body>
 </html>

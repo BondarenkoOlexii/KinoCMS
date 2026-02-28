@@ -72,7 +72,14 @@ def afisha(request, content_type):
 def film(request, pk):
     item = Film.objects.get(pk=pk)
     image_item = FilmThourghtImage.objects.filter(images_info=item)
-    return render(request, 'film_page.html', {'item': item, 'image_item':image_item})
+
+
+    days = Session.objects.values_list('day', flat=True).distinct().order_by('day')
+    selected_day = request.GET.get('day')
+    items = Session.objects.filter(day=selected_day).order_by('start_time')
+
+
+    return render(request, 'film_page.html', {'item': item, 'image_item':image_item, 'days': days, 'schedules': items})
 
 
 
@@ -145,39 +152,67 @@ def schedule(request):
     all_cinema = Cinema.objects.all()
     all_cinema_hall = Hall.objects.all()
     all_film = Film.objects.all()
+
+
+    # Фільтри
+    items = Session.objects.all().order_by('start_time')
+
+    #day_choosed = Session.objects.values_list('day', flat=True)
+
+
+    cinema_search_query = request.GET.get('cinema_id')
+    hall_search_query = request.GET.get('hall_id')
+    film_search_query = request.GET.get('film_id')
+    date_search_query = request.GET.get('date_id')
+    film_type_search_query = request.GET.get('FilmType')
+
+    if cinema_search_query:
+        items = items.filter(hall_id__cinema_id=cinema_search_query)
+
+    if hall_search_query:
+        items = items.filter(hall_id=hall_search_query)
+
+    if film_search_query:
+        items = items.filter(film_id=film_search_query)
+
+    if date_search_query:
+        items = items.filter(day=date_search_query)
+
+    if film_type_search_query:
+        items = items.filter(film_id__type=film_type_search_query)
+
+    # Таблиця
+    days = Session.objects.values_list('day', flat=True).distinct().order_by('day')
+
+
+    return render(request, 'schedule.html', {"items":items, 'days': days, 'all_cinema': all_cinema, 'all_cinema_hall': all_cinema_hall, 'all_film': all_film})
+
+
+
+
+def booking(request):
+
     if request.method == "POST":
         pass
     else:
-        # Фільтри
-        items = Session.objects.all().order_by('start_time')
+        film_id = request.GET.get("film")
+        hall_id = request.GET.get("hall")
+        day_id = request.GET.get("day")
+        start_time_id = request.GET.get("time")
 
-        #day_choosed = Session.objects.values_list('day', flat=True)
-
-
-        cinema_search_query = request.GET.get('cinema_id')
-        hall_search_query = request.GET.get('hall_id')
-        film_search_query = request.GET.get('film_id')
-        date_search_query = request.GET.get('date_id')
-        film_type_search_query = request.GET.get('FilmType')
-
-        if cinema_search_query:
-            items = items.filter(hall_id__cinema_id=cinema_search_query)
-
-        if hall_search_query:
-            items = items.filter(hall_id=hall_search_query)
-
-        if film_search_query:
-            items = items.filter(film_id=film_search_query)
-
-        if date_search_query:
-            items = items.filter(day=date_search_query)
-
-        if film_type_search_query:
-            items = items.filter(film_id__type=film_type_search_query)
-
-        # Таблиця
-        days = Session.objects.values_list('day', flat=True).distinct().order_by('day')
+        if not all([film_id, hall_id, day_id, start_time_id]):
+            print(film_id, hall_id, day_id, start_time_id)
+            return redirect('schedule_site')
 
 
-        return render(request, 'schedule.html', {"items":items, 'days': days, 'all_cinema': all_cinema, 'all_cinema_hall': all_cinema_hall, 'all_film': all_film})
+        #item = Session.objects.filter(film_id=film_id) & Session.objects.filter(hall_id=hall_id) & Session.objects.filter(day=day_id) & Session.objects.filter(start_time=start_time_id)
+        item = Session.objects.filter(
+            film_id=film_id,
+            hall_id=hall_id,
+            day=day_id,
+            start_time=start_time_id
+        ).first()
+        film_item = Film.objects.get(id=film_id)
+        image_item = FilmThourghtImage.objects.filter(images_info=film_id).first()
+        return render(request, 'booking.html', {"item": item, "image_item": image_item, "film_item": film_item})
 

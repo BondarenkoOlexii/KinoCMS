@@ -92,7 +92,7 @@ CinemaImagesFormSet = inlineformset_factory(Cinema, CinemaThourghtImage, ImageFo
 class HallForm(forms.ModelForm):
     class Meta:
         model = Hall
-        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru']
+        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'json_file']
 
         exclude = ('seoblock', 'image', )
 

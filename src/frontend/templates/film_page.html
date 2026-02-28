@@ -2,16 +2,32 @@
 {% load static %}
 
 {% block content %}
+
 <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" style="margin-bottom: 40px">
-    <div class="col-lg-6 px-0">
-    </div>
-</div>
-<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" style="margin-bottom: 40px">
-    <div class="col-lg-6 px-0">
-      <p>РАСПІСАНІЄ</p>
+    <div class="d-flex flex-row overflow-auto">
+        {% for day in days %}
+            <div class="p-1">
+                <a href="?day={{ day|date:'Y-m-d' }}"
+                   class="nav-link {% if selected_day|date:'Y-m-d' == day|date:'Y-m-d' %}active bg-primary text-white{% endif %} border border-primary fw-bold text-uppercase p-3 text-decoration-none text-center"
+                   style="min-width: 100px;">
+                    {{ day }}
+                </a>
+            </div>
+        {% endfor %}
     </div>
 </div>
 
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+    <div class="d-flex flex-row overflow-auto">
+        {% for item in schedules %}
+            <a href="/booking/?film={{ item.film_id.id }}&hall={{ item.hall_id.id }}&day={{ item.day|date:'Y-m-d' }}&time={{ item.start_time|time:'H:i' }}">
+                <div class="border border-primary fw-bold text-uppercase p-3 text-decoration-none text-center">
+                    {{ item.start_time }}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
 
 
 <div class="cinema-card d-flex align-items-center p-4 mb-4 shadow-sm border-0 text-white" style="background-color: #212529; border-radius: 12px;">
@@ -31,29 +47,38 @@
 </div>
 
 
-<div id="cinemaGallery" class="carousel slide shadow-sm border bg-white p-4 mb-4" data-bs-ride="carousel" style="border-radius: 8px;">
-    <h3 class="fw-bold text-dark mb-4 text-center">Галерея</h3>
+<div class="container-fluid px-0 mb-5">
+    <div id="cinemaGallery" class="carousel slide shadow-sm bg-white" data-bs-ride="carousel" style="border-radius: 8px;">
+        <h3 class="fw-bold text-dark mb-4 text-center">Галерея</h3>
+        <div class="carousel-inner">
+            {% for form in image_item %}
+                {% if form.image_type == 'gallery' %}
+                    <div class="carousel-item {% if not gallery_started %}active{% endif %}">
+                        <div class="gallery-slide-container" style="height: 400px; position: relative;">
+                            <a href="{% url 'film_page' form.images_info.id %}">
+                                <img src="{{ form.image.photo.url }}" class="w-100 h-100 gallery-img" style="background: #f8f9fa;" alt="Gallery Image">
+                            </a>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2 class="display-4 fw-bold text-dark">{{ form.images_info.name }}</h2>
+                            </div>
 
-    <div class="carousel-inner">
-        {% for form in image_item %}
-            {% if form.image_type == 'gallery' %}
-                <div class="carousel-item {% if not gallery_started %}active{% endif %}">
-                    <div class="gallery-slide-container" style="height: 400px;">
-                        <img src="{{ form.image.photo.url }}" class="d-block w-100 h-100 rounded" style="object-fit: contain; background: #f8f9fa;" alt="Gallery Image">
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#cinemaGallery" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#cinemaGallery" data-bs-slide="next">
-        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+        <button class="carousel-control-prev" type="button" data-bs-target="#cinemaGallery" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#cinemaGallery" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 </div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

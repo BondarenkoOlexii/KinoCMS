@@ -86,31 +86,11 @@
                                             </div>
                                         </div>
 
-                                        <div id="banner" data-type="banner">
-                                            <h3> Главная картинка </h3>
-                                            <div id="forms-container-banner" class="forms-container">
-                                                {% for form in image_formset %}
-
-                                                {% if form.instance.image_type == 'banner' or form.initial.image_type == 'banner' %}
-                                                    <div class="gallery-form">
-                                                        {{ form.id }}<div style="display: none;"> {{form.DELETE}} </div>
-                                                         <label class="delete-button">
-                                                                <button type="button" class="delete-form-button">
-                                                                <span class="material-symbols-outlined">cancel</span>
-                                                            </button>
-                                                         </label>
-
-
-                                                        <label for="{{ form.image.id_for_label }}" class="custom-upload">
-                                                            {{form.image}}
-                                                            <input type="hidden" name="{{ form.prefix }}-image_type" value="banner" class="type-input">
-                                                                <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %} " class="preview-img">
-                                                        </label>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
+                                        <div class="row g-3">
+                                            <div class="col-sm-6">
+                                                <label class="form-label">JSON</label>
+                                                {{ hall_form.json_file }}
                                             </div>
-                                        </div>
 
 
                                         <div id="gallery" data-type="gallery">

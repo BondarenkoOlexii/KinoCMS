@@ -2,80 +2,101 @@
 {% load static %}
 
 {% block content %}
-
-<form action="" method="GET">
-    <div class="col-md-5">
-        <label class="form-label">Кинотеатр</label>
-
-        <select style="margin-bottom: 30px" name="cinema_id" class="form-select">
-            <option value="">Оберіть Кінотеатр</option>
-            {% for cinema in all_cinema %}
-                <option value="{{cinema.id}}">{{ cinema.name }}</option>
-            {% endfor %}
-        </select>
+<div class="container mt-4">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0">Фільтрація розкладу</h5>
         </div>
+        <div class="card-body">
+            <form action="" method="GET">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold">Кинотеатр</label>
+                        <select style="margin-bottom: 30px" name="cinema_id" class="form-select form-select-sm">
+                            <option value="">Оберіть Кінотеатр</option>
+                            {% for cinema in all_cinema %}
+                                <option value="{{cinema.id}}">{{ cinema.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Hall</label>
+                    <select class="form-select form-select-sm" name="hall_id">
+                        <option value="">Choose...</option>
+                        {% for hall in all_cinema_hall %}
+                            <option value="{{hall.id}}">{{ hall.name }}</option>
+                        {% endfor %}
+                    </select>
 
-        <label class="form-label">Hall</label>
-        <select class="form-select" name="hall_id">
-            <option value="">Choose...</option>
-            {% for hall in all_cinema_hall %}
-                <option value="{{hall.id}}">{{ hall.name }}</option>
-            {% endfor %}
-        </select>
+                    <div class="invalid-feedback">
+                        Please select a valid country.
+                   </div>
+                </div>
 
-        <div class="invalid-feedback">
-            Please select a valid country.
-       </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Film</label>
+                    <select class="form-select form-select-sm" name="film_id">
+                        <option value="">Choose...</option>
+                        {% for film in all_film %}
+                            <option value="{{film.id}}">{{ film.name }}</option>
+                        {% endfor %}
+                    </select>
 
-        <label class="form-label">Film</label>
-        <select class="form-select" name="film_id">
-            <option value="">Choose...</option>
-            {% for film in all_film %}
-                <option value="{{film.id}}">{{ film.name }}</option>
-            {% endfor %}
-        </select>
+                    <div class="invalid-feedback">
+                        Please select a valid country.
+                   </div>
+                </div>
 
-        <div class="invalid-feedback">
-            Please select a valid country.
-       </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Date</label>
+                    <select class="form-select form-select-sm" name="date_id">
+                        <option value="">Choose...</option>
+                        {% for day in days %}
+                            <option value="{{day.id}}">{{ day }}</option>
+                        {% endfor %}
+                    </select>
 
-        <label class="form-label">Date</label>
-        <select class="form-select" name="date_id">
-            <option value="">Choose...</option>
-            {% for day in days %}
-                <option value="{{day.id}}">{{ day }}</option>
-            {% endfor %}
-        </select>
+                    <div class="invalid-feedback">
+                        Please select a valid country.
+                   </div>
+                </div>
 
-        <div class="invalid-feedback">
-            Please select a valid country.
-       </div>
+                <div class="col-md-9">
+                    <div class="d-flex gap-3 pt-1">
+                        <div class="form-check">
+                           <input id="2D" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="2D">
+                           <label class="form-check-label" for="2D">2D</label> </div> <div class="form-check">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 pt-1">
+                        <div class="form-check">
+                           <input id="3D" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="3D">
+                           <label class="form-check-label" for="3D">3D</label> </div> <div class="form-check">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 pt-1">
+                        <div class="form-check">
+                           <input id="IMAX" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="IMAX">
+                           <label class="form-check-label" for="IMAX">IMAX</label> </div> <div class="form-check">
+                        </div>
+                    </div>
+                </div>
 
-       <div class="form-check">
-           <input id="2D" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="2D">
-           <label class="form-check-label" for="2D">2D</label> </div> <div class="form-check">
+                    <div class="col-md-3 d-flex align-items-end justify-content-end">
+                        <button type="submit" class="btn btn-primary btn-sm px-4">Застосувати</button>
+                    </div>
+
+                </div>
+            </form>
         </div>
-       <div class="form-check">
-           <input id="3D" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="3D">
-           <label class="form-check-label" for="3D">3D</label> </div> <div class="form-check">
-        </div>
-        <div class="form-check">
-           <input id="IMAX" name="FilmType" type="radio" class="form-check-input" checked="" required="" value="IMAX">
-           <label class="form-check-label" for="IMAX">IMAX</label> </div> <div class="form-check">
-        </div>
-
-
-        <div class="col-md-4 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary me-2">Застосувати</button>
-        </div>
-
     </div>
-</form>
+</div>
+
 
 <hr class="my-4" />
     {% for day in days %}
-        <h3>FFFFFFFF</h3>
+        <h3>{{day}}</h3>
         <table class="table table-hover table-striped mb-0">
             <thead class="table-light">
                 <tr>
@@ -83,6 +104,7 @@
                     <th>Фильм</th>
                     <th>Зал</th>
                     <th>Цена</th>
+                    <th>Купити Квитки</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -93,6 +115,11 @@
                         <td>{{item.film_id.name}}</td>
                         <td>{{item.hall_id.name}}</td>
                         <td>{{item.price}}</td>
+                        <td>
+                            <a href="/booking/?film={{ item.film_id.id }}&hall={{ item.hall_id.id }}&day={{ day|date:'Y-m-d' }}&time={{ item.start_time|time:'H:i' }}" class="btn btn-primary">
+                                Забронювати
+                            </a>
+                        </td>
                     </tr>
                     {% endif %}
                 {% endfor %}

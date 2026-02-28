@@ -422,7 +422,7 @@ def update_hall(request, cinema_pk, hall_pk):
     cinema_id = item.cinema.id
     if request.method == 'POST':
 
-        form = HallForm(request.POST, instance=item, prefix='hall')
+        form = HallForm(request.POST, request.FILES, instance=item, prefix='hall')
         seoform = SeoForm(request.POST, instance=seo_item, prefix='seo')
         image_formset = HallImagesFormSet(request.POST, request.FILES, instance=item, prefix="image")
 
@@ -469,6 +469,8 @@ def update_hall(request, cinema_pk, hall_pk):
                     thourgh_form.save()
 
             return redirect('update_cinema', pk=cinema_id)
+        else:
+            print(form.errors)
     else:
         form = HallForm(instance=item, prefix='hall')
         seoform = SeoForm(instance=seo_item, prefix='seo')
