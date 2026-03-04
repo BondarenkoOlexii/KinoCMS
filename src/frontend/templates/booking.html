@@ -20,7 +20,7 @@
     <h5 class="card-title mb-0 py-3 text-center text-uppercase fw-bold border-bottom">Попередній перегляд залу</h5>
 
     <div class="d-flex justify-content-center my-5">
-        <div id="hall-grid" class="hall-grid" data-json-url="{{ item.hall_id.json_file.url }}">
+        <div id="hall-grid" class="hall-grid" data-json-url="{{ item.hall_id.json_file.url }}" data-session-id="{{ item.id }}" data-booked='{{ booked_ids|safe }}'>
             </div>
     </div>
 
@@ -35,6 +35,13 @@
             <span class="seat occupied me-2"></span> <small>Зайнято</small>
         </div>
     </div>
+    <form method="post" id="booking-form">
+        {% csrf_token %}
+        <div class="row-3">
+            <button class="btn btn-warning w-50 col-3" type="submit" id="reserve-btn">Забронювати</button>
+            <button class="btn btn-warning w-50" type="submit" id="buy-btn">Купити</button>
+        </div>
+    </form>
 </div>
 {% endblock %}
 
@@ -43,4 +50,9 @@
 
 {% block js %}
     {{ block.super }}
+
 {% endblock %}
+
+
+<script>
+</script>

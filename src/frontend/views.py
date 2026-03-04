@@ -1,12 +1,16 @@
+import json
+
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+
 
 from src.news.models import NewsStockModel, NewsThourghtImage
-from src.cinema.models import Cinema, Film, Session, Hall, FilmThourghtImage, CinemaThourghtImage
+from src.cinema.models import Cinema, Film, Session, Hall, FilmThourghtImage, CinemaThourghtImage, Seat, Booking
 from src.page.models import Page, PageThourghtImage, Contacts, BannerThourghtImage, Banner
 from src.user.models import User
 from src.user.forms import UserForm, CustomChangePassword
@@ -191,28 +195,119 @@ def schedule(request):
 
 
 def booking(request):
+    film_id = request.GET.get("film")
+    hall_id = request.GET.get("hall")
+
+    day_id = request.GET.get("day")
+    start_time_id = request.GET.get("time")
+
+    user_id = request.user
+    print(user_id)
+
+    item = Session.objects.filter(
+        film_id=film_id,
+        hall_id=hall_id,
+        day=day_id,
+        start_time=start_time_id
+    ).first()
+
+
+
 
     if request.method == "POST":
-        pass
+        if not request.body:
+            return JsonResponse({'status': 'error', 'message': 'Тіло запиту порожнє'}, status=400)
+
+        if not item:
+            return JsonResponse({'status': 'error', 'message': 'Сеанс не знайдено. Перевірте параметри URL.'},
+                                status=404)
+
+        if not request.user.is_authenticated:
+            return JsonResponse({'status': 'error', 'message': 'Потрібно авторизуватися'}, status=403)
+
+
+        raw_data = request.body.decode('utf-8')
+
+        booking_seats_ids = []
+
+        try:
+            data = json.loads(raw_data)
+
+            selected_seats = data.get('selected_seats', [])
+
+            action = data.get('action', 'reserve')
+
+            for seat_data in selected_seats:
+                row, num = seat_data.split("-")
+
+                seat = Seat.objects.create(
+                    hall_id=item.hall_id,
+                    row=row,
+                    seat_num=num
+                )
+
+                booking = Booking.objects.create(
+                    hall=item.hall_id,
+                    user=user_id,
+                    seat=seat,
+                    session=item,
+                    status=(True if action == 'buy' else False)
+                )
+
+                booking_seats_ids.append(str(booking.id))
+
+            if action == 'buy':
+                booking_str_ids = ",".join(booking_seats_ids)
+
+
+                return JsonResponse({
+                    'status': 'success',
+                    'action': 'buy',
+                    'redirect_url': f'/buy_tickets/?session={item.id}&booking_seats={booking_str_ids}&film_id={film_id}'
+                })
+            return JsonResponse({'status': 'success', 'action': 'reserve'})
+        except Exception as e:
+            return JsonResponse({'status':'error', 'message': str(e)}, status=400)
+
     else:
-        film_id = request.GET.get("film")
-        hall_id = request.GET.get("hall")
-        day_id = request.GET.get("day")
-        start_time_id = request.GET.get("time")
 
-        if not all([film_id, hall_id, day_id, start_time_id]):
-            print(film_id, hall_id, day_id, start_time_id)
-            return redirect('schedule_site')
+        booked_seats = Booking.objects.filter(session=item).values_list('seat__row', 'seat__seat_num')
+        booked_ids = [f"{row}-{num}" for row, num in booked_seats]
+        booked_ids = json.dumps(booked_ids)
 
-
-        #item = Session.objects.filter(film_id=film_id) & Session.objects.filter(hall_id=hall_id) & Session.objects.filter(day=day_id) & Session.objects.filter(start_time=start_time_id)
-        item = Session.objects.filter(
-            film_id=film_id,
-            hall_id=hall_id,
-            day=day_id,
-            start_time=start_time_id
-        ).first()
         film_item = Film.objects.get(id=film_id)
         image_item = FilmThourghtImage.objects.filter(images_info=film_id).first()
-        return render(request, 'booking.html', {"item": item, "image_item": image_item, "film_item": film_item})
+        return render(request, 'booking.html', {"item": item, "image_item": image_item, "film_item": film_item, "booked_ids":booked_ids})
 
+
+def buy_tickets(request):
+    if request.method == "POST":
+        return JsonResponse({'status': 'success', 'message': 'Оплата успішна', 'redirect_url': 'schedule_site'})
+
+
+    session_id = request.GET.get('session')
+    booking_ids = request.GET.get('booking_seats')
+    user = request.user.id
+    film = request.GET.get('film_id')
+
+    film_item = Film.objects.get(id=film)
+    film_logo_item = FilmThourghtImage.objects.filter(images_info=film).first()
+    user = User.objects.get(id=user)
+    session_id = Session.objects.filter(id=session_id)
+
+    booking_ids = [int(id) for id in booking_ids.split(',')]
+    booking = Booking.objects.filter(id__in=booking_ids)
+
+    total_price = sum(b.session.price for b in booking)
+
+    context = {
+        'session': session_id,
+        'film': film_item,
+        'film_logo': film_logo_item,
+        'user': user,
+        'booking': booking,
+        'total_price': total_price
+    }
+
+
+    return render(request, 'buy_tickets.html', context)

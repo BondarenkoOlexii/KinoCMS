@@ -68,4 +68,4 @@ class Booking(models.Model):
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE, null=True, blank=True)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     status = models.BooleanField()
-    create_time = models.DateTimeField()
+    create_time = models.DateTimeField(null=True, blank=True) #Видалити

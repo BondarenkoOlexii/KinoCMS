@@ -15,10 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile, schedule, booking
+from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile, schedule, booking, buy_tickets
+from src.frontend import consumers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,5 +38,10 @@ urlpatterns = [
     path('contacts', contact, name='contacts'),
     path('user_profile/<int:pk>', profile, name='user_profile'),
     path('schedule', schedule, name='schedule_site'),
-    path('booking/', booking, name='booking')
+    path('booking/', booking, name='booking'),
+    path('buy_tickets/', buy_tickets, name='buy_tickets')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+websocket_urlpatterns = [
+    re_path(r'ws/booking/', consumers.BookingConsumer.as_asgi(), )
+]
