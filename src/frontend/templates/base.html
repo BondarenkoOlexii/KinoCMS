@@ -97,7 +97,14 @@
       }
     </style>
   </head>
-  <body>
+  <body style="
+        {% if back_banner.is_image %}
+          background: url('{{ back_banner.image.photo.url }}') no-repeat center center fixed;
+          background-size: cover;
+        {% else %}
+          background-color: {{ back_banner.background_color }};
+        {% endif %}
+         ">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path
@@ -189,22 +196,22 @@
         <ul
           class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"
         >
-          <li><a href="{% url 'afisha' 'afisha' %}" class="nav-link px-2 link-secondary">Афиша</a></li>
-          <li><a href="{% url 'schedule_site' %}" class="nav-link px-2">Расписание</a></li>
-          <li><a href="{% url 'afisha' 'soon' %}" class="nav-link px-2">Скоро</a></li>
-          <li><a href="{% url 'table_cinema_page' %}" class="nav-link px-2">Кинотеатри</a></li>
-          <li><a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link px-2">Акции</a></li>
+          <li><a href="{% url 'afisha' 'afisha' %}" class="nav-link px-2 link-secondary">{% trans 'Афиша' %}</a></li>
+          <li><a href="{% url 'schedule_site' %}" class="nav-link px-2">{% trans 'Расписание' %}</a></li>
+          <li><a href="{% url 'afisha' 'soon' %}" class="nav-link px-2">{% trans 'Скоро' %}</a></li>
+          <li><a href="{% url 'table_cinema_page' %}" class="nav-link px-2">{% trans 'Кинотеатри' %}</a></li>
+          <li><a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link px-2">{% trans 'Акции' %}</a></li>
 
           <li class="nav-item dropdown">
             <a href="#" class="nav-link px-2 dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             О кинотеатре
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a href="{% url 'table_stock_pages' 'news' %}" class="dropdown-item">Новости</a></li>
-              <li><a class="dropdown-item" href="{% url 'pages' 'stock'%}">Реклама</a></li>
-              <li><a class="dropdown-item" href="{% url 'pages' 'cafe'%}">Кафе</a></li>
-              <li><a class="dropdown-item" href="{% url 'pages' 'vip'%}">VIP-зал</a></li>
-              <li><a class="dropdown-item" href="{% url 'contacts' %}">Контакти</a></li>
+              <li><a href="{% url 'table_stock_pages' 'news' %}" class="dropdown-item">{% trans 'Новости' %}</a></li>
+              <li><a class="dropdown-item" href="{% url 'pages' 'stock'%}">{% trans 'Реклама' %}</a></li>
+              <li><a class="dropdown-item" href="{% url 'pages' 'cafe'%}">{% trans 'Кафе' %}</a></li>
+              <li><a class="dropdown-item" href="{% url 'pages' 'vip'%}">{% trans 'VIP-зал' %}</a></li>
+              <li><a class="dropdown-item" href="{% url 'contacts' %}">{% trans 'Контакти' %}</a></li>
             </ul>
           </li>
         </ul>
@@ -325,38 +332,38 @@
         <div class="col mb-3">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">Афиша</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Афиша' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">Расписание</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Расписание' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">Скоро в прокате</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Скоро в прокате' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">Кинотеатри</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Кинотеатри' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link p-0 text-body-secondary">Акции</a>
+              <a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link p-0 text-body-secondary">{% trans 'Акции' %}</a>
             </li>
           </ul>
         </div>
         <div class="col mb-3">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">О кинотеатре</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'О кинотеатре' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">Новости</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Новости' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="{% url 'pages' 'stock'%}" class="nav-link p-0 text-body-secondary">Реклама</a>
+              <a href="{% url 'pages' 'stock'%}" class="nav-link p-0 text-body-secondary">{% trans 'Реклама' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="{% url 'pages' 'stock'%}" class="nav-link p-0 text-body-secondary">Кафе-Бар</a>
+              <a href="{% url 'pages' 'stock'%}" class="nav-link p-0 text-body-secondary">{% trans 'Кафе-Бар' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="{% url 'contacts' %}" class="nav-link p-0 text-body-secondary">Контакти</a>
+              <a href="{% url 'contacts' %}" class="nav-link p-0 text-body-secondary">{% trans 'Контакти' %}</a>
             </li>
           </ul>
         </div>

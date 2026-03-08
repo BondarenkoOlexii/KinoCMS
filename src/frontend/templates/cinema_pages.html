@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
+
 
 {% block content %}
 <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" style="margin-bottom: 40px">
@@ -17,12 +19,12 @@
         {% endfor %}
     </div>
     <div class="d-flex gap-2" style="margin-left: 20px">
-        <span class="badge-tag tag-3d">3D</span>
-        <span class="badge-tag tag-2d">2D</span>
-        <span class="badge-tag tag-imax">IMAX</span>
+        <span class="badge-tag tag-3d">{% trans '3D' %}</span>
+        <span class="badge-tag tag-2d">{% trans '2D' %}</span>
+        <span class="badge-tag tag-imax">{% trans 'IMAX' %}</span>
     </div>
     <div class="ms-auto d-flex flex-column align-items-end gap-3">
-        <a href="#" class="btn-schedule px-4 py-2 fw-semibold text-nowrap" style="color: #ffffff">Расписание сеансов</a>
+        <a href="#" class="btn-schedule px-4 py-2 fw-semibold text-nowrap" style="color: #ffffff">{% trans 'Расписание сеансов' %}</a>
     </div>
 </div>
 
@@ -31,7 +33,7 @@
 </div>
 
 <div class="p-5 mb-4 border bg-white shadow-sm d-flex flex-column" style="border-radius: 8px;">
-    <h3 class="fw-bold text-dark mb-3 mx-auto">Условия</h3>
+    <h3 class="fw-bold text-dark mb-3 mx-auto">{% trans 'Умови' %}</h3>
 
     <div class="mx-auto" style="width: 50px; height: 3px; background-color: #333; margin-bottom: 20px;"></div>
 
@@ -41,7 +43,7 @@
 </div>
 
 <div id="cinemaGallery" class="carousel slide shadow-sm border bg-white p-4 mb-4" data-bs-ride="carousel" style="border-radius: 8px;">
-    <h3 class="fw-bold text-dark mb-4 text-center">Галерея</h3>
+    <h3 class="fw-bold text-dark mb-4 text-center">{% trans 'Галерея' %}</h3>
 
     <div class="carousel-inner">
         {% for form in image_item %}

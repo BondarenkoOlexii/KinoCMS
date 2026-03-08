@@ -87,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
                 'src.adminpanel.context_processor.film_ads',
+                'src.adminpanel.context_processor.back_banner'
             ],
         },
     },

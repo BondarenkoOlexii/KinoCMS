@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 
@@ -38,7 +39,7 @@
 
 <div class="w-100">
     <h2 class="text-center fw-bold display-5 mb-0">
-        В прокаті
+        {% trans 'В прокаті' %}
     </h2>
 </div>
 
@@ -63,7 +64,7 @@
                                 </a>
                             </h5>
                             <a href="#" class="btn btn-success btn-sm" style="margin-top: 20px">
-                                <i class="bi bi-plus-lg"></i> Купити Білет
+                                <i class="bi bi-plus-lg"></i> {% trans 'Купити Білет' %}
                             </a>
                         </div>
                     </div>
@@ -75,7 +76,7 @@
 
 <div class="w-100">
     <h2 class="text-center fw-bold display-5 mb-0">
-        Скоро
+        {% trans 'Скоро' %}
     </h2>
 </div>
 
@@ -103,7 +104,7 @@
 
 <div class="w-100">
     <h2 class="text-center fw-bold display-5 mb-0">
-        Новости и Акции
+        {% trans 'Новости и Акции' %}
     </h2>
 </div>
 
@@ -127,9 +128,6 @@
                                     {{ form.images_info.name }}
                                 </a>
                             </h5>
-                            <a href="#" class="btn btn-success btn-sm" style="margin-top: 20px">
-                                <i class="bi bi-plus-lg"></i> Купити Білет
-                            </a>
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-
+from django.contrib import messages
 
 from src.news.models import NewsStockModel, NewsThourghtImage
 from src.cinema.models import Cinema, Film, Session, Hall, FilmThourghtImage, CinemaThourghtImage, Seat, Booking
@@ -103,7 +103,7 @@ def profile(request, pk):
             form.save()
             password_form.save()
             update_session_auth_hash(request, item)
-            return redirect('profile', pk=item.id)
+            return redirect('user_profile', pk=item.id)
         else:
             print(f"Ошибка UserForm:\n{form.errors.as_text()}")
     else:
@@ -265,7 +265,6 @@ def booking(request):
                     'action': 'buy',
                     'redirect_url': f'/buy_tickets/?session={item.id}&booking_seats={booking_str_ids}&film_id={film_id}'
                 })
-            return JsonResponse({'status': 'success', 'action': 'reserve'})
         except Exception as e:
             return JsonResponse({'status':'error', 'message': str(e)}, status=400)
 
@@ -282,7 +281,8 @@ def booking(request):
 
 def buy_tickets(request):
     if request.method == "POST":
-        return JsonResponse({'status': 'success', 'message': 'Оплата успішна', 'redirect_url': 'schedule_site'})
+        messages.success(request, "Оплата пройшла успішно")
+        return redirect('schedule_site')
 
 
     session_id = request.GET.get('session')
@@ -293,7 +293,7 @@ def buy_tickets(request):
     film_item = Film.objects.get(id=film)
     film_logo_item = FilmThourghtImage.objects.filter(images_info=film).first()
     user = User.objects.get(id=user)
-    session_id = Session.objects.filter(id=session_id)
+    session_id = Session.objects.filter(id=session_id).first()
 
     booking_ids = [int(id) for id in booking_ids.split(',')]
     booking = Booking.objects.filter(id__in=booking_ids)

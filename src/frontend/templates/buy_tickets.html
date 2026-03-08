@@ -1,18 +1,80 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
-<div class="cinema-card d-flex align-items-center p-4 mb-4 shadow-sm border-0 text-white" style="background-color: #212529; border-radius: 12px;">
-    <div class="logo-placeholder d-flex align-items-center justify-content-center" style="width: 250px; height: 200px; background-color: #343a40; border-radius: 8px; overflow: hidden;">
-        <img src="{{ film_logo_item.image.photo.url }}" alt="Logo" class="img-fluid" style="height: 100%; width: 100%; object-fit: cover;">
-    </div>
-    <div class="d-flex flex-column gap-2" style="margin-left: 20px">
-        <h4 class="fw-bold mb-1">{{ film_item.name }}</h4>
-        <div class="d-flex gap-2">
-            <span class="badge bg-primary">{{ film_item.day }}</span>
-            <span class="badge bg-info text-dark">{{ film_item.start_time }}</span>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="cinema-card d-flex align-items-center p-4 mb-4 shadow-sm border-0 text-white" style="background-color: #212529; border-radius: 12px;">
+                <div class="logo-placeholder d-flex align-items-center justify-content-center" style="width: 200px; height: 280px; background-color: #343a40; border-radius: 8px; overflow: hidden;">
+                    {% if film_logo %}
+                        <img src="{{ film_logo.image.photo.url }}" alt="{{ film.name }}" class="img-fluid" style="height: 100%; width: 100%; object-fit: cover;">
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column gap-3" style="margin-left: 30px">
+                    <h2 class="fw-bold mb-1">{{ film.name }}</h2>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary fs-6">{{ session.day }}</span>
+                        <span class="badge bg-info text-dark fs-6">{{ session.start_time }}</span>
+                    </div>
+
+
+
+                    <div class="mt-2">
+                        <h6 class="text-secondary text-uppercase fw-bold" style="font-size: 0.8rem;">{% trans 'Ваші місця:' %}</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for b in booking %}
+                                <span class="badge border border-light">Ряд {{ b.seat.row }}, Місце {{ b.seat.seat_num }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4" style="border-radius: 12px; background-color: #f8f9fa;">
+                <h5 class="fw-bold mb-4 border-bottom pb-2">{% trans 'Деталі оплати' %}</h5>
+                <div class="mb-4">
+                    <label class="form-label text-muted small text-uppercase fw-bold">{% trans 'Номер картки' %}</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-credit-card"></i>{{ user.credit_card }}</span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span class="text-muted">{% trans 'Загальна сума:' %}</span>
+                    <span class="h3 fw-bold text-success mb-0">{{ total_price }} грн</span>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-lg w-100 fw-bold" style="border-radius: 8px;">
+                        {% trans 'ОПЛАТИТИ' %}
+                    </button>
+                </form>
+
+                <p class="text-center text-muted mt-3" style="font-size: 0.75rem;">
+                    ТЕКСТ ТЕКСТ
+                </p>
+            </div>
         </div>
     </div>
 </div>
 
 {% endblock %}
+
+
+<script>
+.then(data => {
+    if (data.status === 'success') {
+
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ 'action': 'reserve', 'seats': selectedSeats }));
+        }
+
+        if (data.action === 'buy') {
+            alert('Переходимо до оплати...');
+            window.open(data.redirect_url, '_blank');
+</script>

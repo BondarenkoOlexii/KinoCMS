@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const grid = document.getElementById('hall-grid');
     const bookingForm = document.getElementById('booking-form');
-    let currentAction = 'reserve'; // Тип дії за замовчуванням
+    let currentAction = 'reserve';
 
     if (!grid) return;
 
@@ -15,7 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Помилка парсингу booked_ids. Перевір json.dumps та |safe");
     }
 
-    // WebSocket
+
+
+
+
+    // Websocket
     let socket = null;
     if (sessionId) {
         socket = new WebSocket('ws://' + window.location.host + '/ws/booking/' + sessionId + '/');
@@ -30,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Завантаження залу
+
     fetch(url)
         .then(res => res.json())
         .then(data => renderHall(data))
@@ -80,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         grid.appendChild(wrapper);
     }
 
-    // Визначаємо action перед сабмітом
+
     document.getElementById('reserve-btn').addEventListener('click', () => currentAction = 'reserve');
     document.getElementById('buy-btn').addEventListener('click', () => currentAction = 'buy');
 
@@ -110,14 +114,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-                // Відправляємо дані в сокет, щоб інші побачили зайняті місця
+
                 if (socket && socket.readyState === WebSocket.OPEN) {
                     socket.send(JSON.stringify({ 'action': 'reserve', 'seats': selectedSeats }));
                 }
 
                 if (data.action === 'buy') {
                     alert('Переходимо до оплати...');
-                    window.open(data.redirect_url, '_blank'); // ВІДКРИВАЄМО В НОВІЙ ВКЛАДЦІ
+                    window.open(data.redirect_url, '_blank');
                 } else {
                     alert('Успішно заброньовано!');
                 }

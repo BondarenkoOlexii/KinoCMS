@@ -343,52 +343,6 @@
      * Class Definition
      * ====================================================
      */
-    class Treeview {
-        _element;
-        _config;
-        constructor(element, config) {
-            this._element = element;
-            this._config = { ...Default, ...config };
-        }
-        open() {
-            const event = new Event(EVENT_EXPANDED$1);
-            if (this._config.accordion) {
-                const openMenuList = this._element.parentElement?.querySelectorAll(`${SELECTOR_NAV_ITEM$1}.${CLASS_NAME_MENU_OPEN$1}`);
-                openMenuList?.forEach(openMenu => {
-                    if (openMenu !== this._element.parentElement) {
-                        openMenu.classList.remove(CLASS_NAME_MENU_OPEN$1);
-                        const childElement = openMenu?.querySelector(SELECTOR_TREEVIEW_MENU);
-                        if (childElement) {
-                            slideUp(childElement, this._config.animationSpeed);
-                        }
-                    }
-                });
-            }
-            this._element.classList.add(CLASS_NAME_MENU_OPEN$1);
-            const childElement = this._element?.querySelector(SELECTOR_TREEVIEW_MENU);
-            if (childElement) {
-                slideDown(childElement, this._config.animationSpeed);
-            }
-            this._element.dispatchEvent(event);
-        }
-        close() {
-            const event = new Event(EVENT_COLLAPSED$1);
-            this._element.classList.remove(CLASS_NAME_MENU_OPEN$1);
-            const childElement = this._element?.querySelector(SELECTOR_TREEVIEW_MENU);
-            if (childElement) {
-                slideUp(childElement, this._config.animationSpeed);
-            }
-            this._element.dispatchEvent(event);
-        }
-        toggle() {
-            if (this._element.classList.contains(CLASS_NAME_MENU_OPEN$1)) {
-                this.close();
-            }
-            else {
-                this.open();
-            }
-        }
-    }
     /**
      * ------------------------------------------------------------------------
      * Data Api implementation

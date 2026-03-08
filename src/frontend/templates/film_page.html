@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
         {% endfor %}
     </div>
     <div class="ms-auto d-flex flex-column align-items-end gap-3">
-        <a href="#" class="btn-schedule px-4 py-2 fw-semibold text-nowrap" style="color: #ffffff">Купити Білет</a>
+        <a href="#" class="btn-schedule px-4 py-2 fw-semibold text-nowrap" style="color: #ffffff">{% trans 'Купити Білет' %}</a>
         {{ item.name }}
         {{ item.description }}
     </div>
@@ -49,7 +50,7 @@
 
 <div class="container-fluid px-0 mb-5">
     <div id="cinemaGallery" class="carousel slide shadow-sm bg-white" data-bs-ride="carousel" style="border-radius: 8px;">
-        <h3 class="fw-bold text-dark mb-4 text-center">Галерея</h3>
+        <h3 class="fw-bold text-dark mb-4 text-center">{% trans 'Галерея' %}</h3>
         <div class="carousel-inner">
             {% for form in image_item %}
                 {% if form.image_type == 'gallery' %}

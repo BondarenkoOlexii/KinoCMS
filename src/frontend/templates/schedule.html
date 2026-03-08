@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white py-3">
-            <h5 class="card-title mb-0">Фільтрація розкладу</h5>
+            <h5 class="card-title mb-0">{% trans 'Фільтрація розкладу' %}</h5>
         </div>
         <div class="card-body">
             <form action="" method="GET">
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label class="form-label small fw-bold">Кинотеатр</label>
+                        <label class="form-label small fw-bold">{% trans 'Кинотеатр' %}</label>
                         <select style="margin-bottom: 30px" name="cinema_id" class="form-select form-select-sm">
-                            <option value="">Оберіть Кінотеатр</option>
+                            <option value="">{% trans 'Оберіть Кінотеатр' %}</option>
                             {% for cinema in all_cinema %}
                                 <option value="{{cinema.id}}">{{ cinema.name }}</option>
                             {% endfor %}
@@ -21,7 +22,7 @@
                     </div>
 
                 <div class="col-md-3">
-                    <label class="form-label small fw-bold">Hall</label>
+                    <label class="form-label small fw-bold">{% trans 'Hall' %}</label>
                     <select class="form-select form-select-sm" name="hall_id">
                         <option value="">Choose...</option>
                         {% for hall in all_cinema_hall %}
@@ -35,7 +36,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label small fw-bold">Film</label>
+                    <label class="form-label small fw-bold">{% trans 'Film' %}</label>
                     <select class="form-select form-select-sm" name="film_id">
                         <option value="">Choose...</option>
                         {% for film in all_film %}
@@ -49,7 +50,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label small fw-bold">Date</label>
+                    <label class="form-label small fw-bold">{% trans 'Date' %}</label>
                     <select class="form-select form-select-sm" name="date_id">
                         <option value="">Choose...</option>
                         {% for day in days %}
@@ -84,7 +85,7 @@
                 </div>
 
                     <div class="col-md-3 d-flex align-items-end justify-content-end">
-                        <button type="submit" class="btn btn-primary btn-sm px-4">Застосувати</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4">{% trans 'Застосувати' %}</button>
                     </div>
 
                 </div>
@@ -100,11 +101,11 @@
         <table class="table table-hover table-striped mb-0">
             <thead class="table-light">
                 <tr>
-                    <th>Время</th>
-                    <th>Фильм</th>
-                    <th>Зал</th>
-                    <th>Цена</th>
-                    <th>Купити Квитки</th>
+                    <th>{% trans 'Время' %}</th>
+                    <th>{% trans 'Фильм' %}</th>
+                    <th>{% trans 'Зал' %}</th>
+                    <th>{% trans 'Цена' %}</th>
+                    <th>{% trans 'Купити Квитки' %}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -117,7 +118,7 @@
                         <td>{{item.price}}</td>
                         <td>
                             <a href="/booking/?film={{ item.film_id.id }}&hall={{ item.hall_id.id }}&day={{ day|date:'Y-m-d' }}&time={{ item.start_time|time:'H:i' }}" class="btn btn-primary">
-                                Забронювати
+                                {% trans 'Забронювати' %}
                             </a>
                         </td>
                     </tr>
@@ -129,4 +130,18 @@
 
     <hr class="my-4" />
 
+
+{% if messages %}
+    <script>
+    {% for message in messages %}
+        {% if "увійшли як" not in message.message and "ви вийшли" not in message.message %}
+            alert("{{ message }}")
+        {% endif %}
+    {% endfor %}
+    </script>
+{% endif %}
+
+
 {% endblock %}
+
+
