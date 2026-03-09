@@ -112,7 +112,7 @@ DATABASES = {
         'NAME': 'kinocms',
         'USER': 'postgres',
         'PASSWORD': '1',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }
@@ -218,8 +218,8 @@ LOCALE_PATHS = [
 
 # DEAFULT DJANGO SETTING MODULE FOR THE 'CELERY AND REDIS'
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://redis:6379/0')
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
