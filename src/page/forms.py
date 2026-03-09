@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory, modelformset_factory
 from src.adminpanel.models.BannerChoise import TypeBanner, DropBox
-from src.page.models import Page, MainPage, Banner, BackgroundBanner, SeoBlock, PageThourghtImage, BannerThourghtImage, BackBannerThourghtImage, Contacts
+from src.page.models import Page, MainPage, Banner, BackgroundBanner, SeoBlock, PageThourghtImage, BannerThourghtImage, Contacts
 
 IS_IMAGE = [
     (True, 'Зображення'),
@@ -110,30 +110,23 @@ BannerImagesFormSet = inlineformset_factory(Banner, BannerThourghtImage, ImageFo
 
 
 class BackBannerForm(forms.ModelForm):
-
-    class Meta:
-        model = BackgroundBanner
-        fields = ['is_image', 'background_color']
-
-        exclude = ('image',)
-
-        widgets = {
-                   "is_image": forms.RadioSelect(choices=IS_IMAGE, attrs={'class': 'form-check-input'}),
-                   "background_color": forms.TextInput(attrs={'class': 'form-control', 'style': 'height: 50px; margin-top: 20px'})
-                   }
-
-class BackImageForm(forms.ModelForm):
     image = forms.ImageField(
         required=False,
         widget=forms.FileInput(attrs={'type': "file", 'class': 'add-form-button'}),
         label="Фотографія"
     )
 
-    class Meta:
-        model = BannerThourghtImage
-        fields = ['images_info']
 
-BackBannerImagesFormSet = inlineformset_factory(BackgroundBanner, BackBannerThourghtImage, BackImageForm, extra=1, can_delete=True, )
+    class Meta:
+        model = BackgroundBanner
+        fields = ['is_image', 'background_color']
+
+
+        widgets = {
+                   "is_image": forms.RadioSelect(choices=IS_IMAGE, attrs={'class': 'form-check-input'}),
+                   "background_color": forms.TextInput(attrs={'class': 'form-control', 'style': 'height: 50px; margin-top: 20px'})
+                   }
+
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

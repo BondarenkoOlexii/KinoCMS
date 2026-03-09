@@ -117,31 +117,23 @@
                                                 </label>
                                                 {% if radio.choice_label == 'Зображення' %}
                                                     <div class="display">
-                                                        <div style="{% if form.is_image.value != 'True' %}display: none{% endif %}"></div>
-                                                        <div class="card-body">
-                                                           <div id="back-section" class="mb-5">
-                                                               <h3>Лого</h3>
-                                                               <div class="formset-section">{{ back_formset.management_form }}
-                                                                   <div id="forms-container-back" style="width: 200px">
-                                                                       {% for form in back_formset %}
+                                                        <div style="{% if back_form.is_image.value != 'True' %}display: none{% endif %}"></div>
+                                                            <div class="card-body">
+                                                                <div id="back-section" class="mb-5">
+                                                                   <h3>Зображення фону</h3>
+                                                                   <div class="formset-section">
+                                                                       <div id="forms-container-back" style="width: 200px">
                                                                            <div class="gallery-form">
-                                                                               {{ form.id }}
-                                                                               <div style="display: none">{{form.DELETE}}</div>
-                                                                               <label class="delete-button">
-                                                                                   <button type="button" class="delete-form-button">
-                                                                                       <span class="material-symbols-outlined">cancel</span>
-                                                                                   </button>
-                                                                               </label>
-                                                                               <label for="{{ form.image.id_for_label }}" class="custom-upload">
-                                                                                    {{form.image}}
-                                                                                    <input type="hidden" name="{{ form.prefix }}-image_type" value="banner">
-                                                                                    <img src="{% if form.instance.image.photo  %} {{ form.instance.image.photo.url }} {% endif %}" class="preview-img">
+                                                                               <label for="{{ back_form.image.id_for_label }}" class="custom-upload">
+                                                                                    {{back_form.image}}
+                                                                                    <input type="hidden" name="{{ back_form.prefix }}-image_type" value="banner">
+                                                                                    <img src="{% if back_form.instance.image.photo  %} {{ back_form.instance.image.photo.url }} {% endif %}" class="preview-img">
                                                                                </label>
                                                                             </div>
-                                                                       {% endfor %}
+                                                                       </div>
                                                                    </div>
-                                                               </div>
-                                                           </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                 {% endif %}
 

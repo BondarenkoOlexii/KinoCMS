@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from src.page.models import Page, Banner, BackgroundBanner
 from src.common.models import Image, SeoBlock
-from src.page.forms import PagesForm, ImageForm, SeoForm, BannerForm, PageImagesFormSet, BannerImagesFormSet, MainPage, MainPageForm, BackBannerForm, BackBannerImagesFormSet, Contacts, ContactImagesFormSet, ContactForm
+from src.page.forms import PagesForm, ImageForm, SeoForm, BannerForm, PageImagesFormSet, BannerImagesFormSet, MainPage, MainPageForm, BackBannerForm, Contacts, ContactImagesFormSet, ContactForm
 
 # Create your views here.
 
@@ -278,7 +278,7 @@ def banner(request):
 
     main_formset = BannerImagesFormSet(instance=banner_obj, prefix="main", queryset=main_queryset)
     stock_formset = BannerImagesFormSet(instance=banner_obj, prefix="stock", queryset=stock_queryset)
-    back_formset = BackBannerImagesFormSet(instance=back_banner_obj, prefix="back")
+
 
 
     if request.method == 'POST':
@@ -308,11 +308,20 @@ def banner(request):
 
         elif "save_back" in request.POST:
             print("SAVE BACK")
-            back_formset = BackBannerImagesFormSet(request.POST, request.FILES, instance=back_banner_obj, prefix="back")
-            if back_banner_form.is_valid() and back_formset.is_valid():
-                print("VSE VALID BACK")
-                saved_banner = back_banner_form.save()
-                work_formset(back_formset, 'back', saved_banner)
+            back_banner_form = BackBannerForm(request.POST, request.FILES, instance=back_banner_obj, prefix="backbanner")
+            if back_banner_form.is_valid():
+                banner_obj = back_banner_form.save(commit=False)
+                img_file = back_banner_form.cleaned_data.get('image')
+                if img_file:
+                    if banner_obj.image:
+                        banner_obj.image.delete()
+
+                    img_obj = Image.objects.create(photo=img_file)
+                    banner_obj.image = img_obj
+
+                banner_obj.save()
+
+                return redirect('banner')
 
     if request.method == 'GET':
         print("REQUEST GET")
@@ -320,7 +329,7 @@ def banner(request):
         back_banner_form = BackBannerForm(instance=back_banner_obj, prefix='backbanner')
         main_formset = BannerImagesFormSet(instance=banner_obj, prefix="main", queryset=main_queryset)
         stock_formset = BannerImagesFormSet(instance=banner_obj, prefix="stock", queryset=stock_queryset)
-        back_formset = BackBannerImagesFormSet(instance=back_banner_obj, prefix="back")
 
     return render(request, 'banner.html',
-                  {'item': banner_obj, 'form': banner_form, 'main_formset': main_formset, 'stock_formset':stock_formset, 'back_formset':back_formset, 'back_form': back_banner_form})
+                  {'item': banner_obj, 'form': banner_form, 'main_formset': main_formset,
+                   'stock_formset':stock_formset, 'back_form': back_banner_form})
