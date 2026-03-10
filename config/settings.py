@@ -109,11 +109,11 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kinocms',
-        'USER': 'postgres',
-        'PASSWORD': '1',
-        'HOST': 'db',
-        'PORT': '5432'
+        'NAME': os.environ.get('POSTGRES_DB', 'kinocms'),
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '1'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -194,8 +194,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'mayoright01@gmail.com' # ЗМІНИТИ ПРИ ДЕПЛОЇ
-EMAIL_HOST_PASSWORD = 'duinaarjpzgffudg' # ЗМІНИТИ ПРИ ДЕПЛОЇ
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # ЗМІНИТИ ПРИ ДЕПЛОЇ
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') # 'duinaarjpzgffudg' ЗМІНИТИ ПРИ ДЕПЛОЇ
 
 
 #--------------------------------------------------------------------------
