@@ -21,6 +21,7 @@
     />
     <link href="{% static 'dist/css/bootstrap.min.css'%}" rel="stylesheet" />
     <link href="{% static 'dist/css/front.css' %}" rel="stylesheet" />
+    {% block extra_css %}{% endblock %}
     <meta name="theme-color" content="#712cf9" />
     <style>
       .bd-placeholder-img {

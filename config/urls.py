@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile, schedule, booking, buy_tickets
+from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile, schedule, booking, buy_tickets, change_password
 from src.frontend import consumers
 
 urlpatterns = [
@@ -37,6 +37,7 @@ urlpatterns = [
     path('page/<str:content_type>', pages, name='pages'),
     path('contacts', contact, name='contacts'),
     path('user_profile/<int:pk>', profile, name='user_profile'),
+    path('change_password/<int:pk>', change_password, name='change_password'),
     path('schedule', schedule, name='schedule_site'),
     path('booking/', booking, name='booking'),
     path('buy_tickets/', buy_tickets, name='buy_tickets')

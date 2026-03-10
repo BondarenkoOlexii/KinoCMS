@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
@@ -92,25 +93,31 @@ def profile(request, pk):
     if request.user.id != pk:
         raise PermissionDenied
 
-
-    password_form = None
     item = get_object_or_404(User,id=pk)
-
     if request.method == 'POST':
         form = UserForm(request.POST, instance=item)
-        password_form = CustomChangePassword(user=item, data=request.POST)
-        if form.is_valid() and password_form.is_valid():
+        if form.is_valid():
             form.save()
-            password_form.save()
-            update_session_auth_hash(request, item)
-            return redirect('user_profile', pk=item.id)
         else:
             print(f"Ошибка UserForm:\n{form.errors.as_text()}")
     else:
         form = UserForm(instance=item)
-        password_form = CustomChangePassword(user=item)
 
-    return render(request, 'user_profile.html', {'item': item, 'form':form, 'password_form': password_form})
+    return render(request, 'user_profile.html', {'item': item, 'form':form})
+
+@login_required
+def change_password(request, pk):
+    item = get_object_or_404(User, id=pk)
+    if request.method == "POST":
+        password_form = PasswordChangeForm(user=item, data=request.POST)
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, item)
+            return redirect('user_profile', pk=item.id)
+    else:
+        password_form = CustomChangePassword(user=item)
+    return render(request, 'change_password.html', {'password_form': password_form})
+
 
 
 def main_page(request):

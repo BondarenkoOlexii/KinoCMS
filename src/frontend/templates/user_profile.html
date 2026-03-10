@@ -2,6 +2,11 @@
 {% load static %}
 {% load i18n %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'dist/css/news.css' %}"/>
+{% endblock %}
+
+
 {% block content %}
 
 
@@ -94,25 +99,13 @@
                                             {{ form.city }}
                                     </div>
                                 </div>
-
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">Пароль</label>
-                                        {{ password_form.password1 }}
-                                        <span class="error-message">Пароль має бути не менше 8 символів!</span>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label class="form-label">Повторить пароль</label>
-                                        {{ password_form.password2 }}
-                                        <span class="error-message">Пароль має бути не менше 8 символів!</span>
-                                    </div>
-                                </div>
-
                                 <div class="row g-3">
                                     <div class="col-sm-6">
                                         <label class="form-label">{% trans 'Номер карты' %}</label>
                                         {{ form.credit_card }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="{% url 'change_password' %}">Change Password</a>
                                     </div>
                                 </div>
 
