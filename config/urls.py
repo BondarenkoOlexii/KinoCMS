@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from src.frontend.views import main_page, table_cinema_page, cinema_page, pages, table_stock_pages, stock_page, afisha, contact, film, profile, schedule, booking, buy_tickets, change_password
 from src.frontend import consumers
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,9 @@ urlpatterns = [
     path('adminpanel/', include('src.adminpanel.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += i18n_patterns(
     path('', main_page, name='main_page'),
     path('table_cinema_pages', table_cinema_page, name='table_cinema_page'),
     path('cinema_pages/<int:pk>', cinema_page, name='cinema_pages'),
@@ -41,7 +45,7 @@ urlpatterns = [
     path('schedule', schedule, name='schedule_site'),
     path('booking/', booking, name='booking'),
     path('buy_tickets/', buy_tickets, name='buy_tickets')
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 websocket_urlpatterns = [
     re_path(r'ws/booking/', consumers.BookingConsumer.as_asgi(), )

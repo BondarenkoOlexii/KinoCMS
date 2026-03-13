@@ -1,0 +1,304 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-13 22:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+#: config/settings.py:210
+msgid "Ukrainian"
+msgstr ""
+
+#: config/settings.py:211
+msgid "Russian"
+msgstr ""
+
+#: src/adminpanel/templates/custom_admin/theme.html:8
+msgid "AminLTE v4 | Dashboard"
+msgstr ""
+
+#: src/adminpanel/templates/custom_admin/theme.html:130
+msgid "Статистика"
+msgstr "Статистика"
+
+#: src/adminpanel/templates/custom_admin/theme.html:136
+msgid "Баннера/Слайдери"
+msgstr "Баннера/Слайдери"
+
+#: src/adminpanel/templates/custom_admin/theme.html:142
+msgid "Фільми"
+msgstr "Фільми"
+
+#: src/adminpanel/templates/custom_admin/theme.html:148
+msgid "Кинотеатры"
+msgstr "Кінотеатри"
+
+#: src/adminpanel/templates/custom_admin/theme.html:154
+msgid "Новости"
+msgstr "Новини"
+
+#: src/adminpanel/templates/custom_admin/theme.html:160
+msgid "Акции"
+msgstr "Акції"
+
+#: src/adminpanel/templates/custom_admin/theme.html:172
+msgid "Страницы"
+msgstr "Сторінки"
+
+#: src/adminpanel/templates/custom_admin/theme.html:178
+msgid "Пользователи"
+msgstr "Користувачі"
+
+#: src/adminpanel/templates/custom_admin/theme.html:184
+msgid "Рассылка"
+msgstr "Розсилка"
+
+#: src/frontend/templates/afisha.html:28
+#: src/frontend/templates/film_page.html:43 src/frontend/templates/main.html:67
+msgid "Купити Білет"
+msgstr "Купити Білет"
+
+#: src/frontend/templates/base.html:200 src/frontend/templates/base.html:336
+msgid "Афіша"
+msgstr "Афіша"
+
+#: src/frontend/templates/base.html:201 src/frontend/templates/base.html:339
+msgid "Розклад"
+msgstr "Розклад"
+
+#: src/frontend/templates/base.html:202 src/frontend/templates/main.html:79
+msgid "Скоро"
+msgstr "Скоро"
+
+#: src/frontend/templates/base.html:203 src/frontend/templates/base.html:345
+msgid "Кінотеатри"
+msgstr "Кінотеатри"
+
+#: src/frontend/templates/base.html:204 src/frontend/templates/base.html:348
+msgid "Акції"
+msgstr "Акції"
+
+#: src/frontend/templates/base.html:211 src/frontend/templates/base.html:358
+msgid "Новини"
+msgstr "Новини"
+
+#: src/frontend/templates/base.html:212 src/frontend/templates/base.html:361
+msgid "Реклама"
+msgstr "Реклама"
+
+#: src/frontend/templates/base.html:213
+msgid "Кафе"
+msgstr "Кафе"
+
+#: src/frontend/templates/base.html:214
+msgid "VIP-зал"
+msgstr "VIP-зал"
+
+#: src/frontend/templates/base.html:215 src/frontend/templates/base.html:367
+msgid "Контакти"
+msgstr "Контакти"
+
+#: src/frontend/templates/base.html:342
+msgid "Скоро в прокаті"
+msgstr "Скоро в прокаті"
+
+#: src/frontend/templates/base.html:355
+msgid "Про кінотеатр"
+msgstr "Про кінотеатр"
+
+#: src/frontend/templates/base.html:364
+msgid "Кафе-Бар"
+msgstr "Кафе-Бар"
+
+#: src/frontend/templates/booking.html:21
+msgid "Попередній перегляд залу"
+msgstr "Попередній перегляд залу"
+
+#: src/frontend/templates/booking.html:30
+msgid "Вільно"
+msgstr "Вільно"
+
+#: src/frontend/templates/booking.html:33
+msgid "Ваш вибір"
+msgstr "Ваш вибір"
+
+#: src/frontend/templates/booking.html:36
+msgid "Зайнято"
+msgstr "Зайнято"
+
+#: src/frontend/templates/booking.html:45
+#: src/frontend/templates/schedule.html:121
+msgid "Забронювати"
+msgstr "Забронювати"
+
+#: src/frontend/templates/booking.html:49
+msgid "Купити квиток"
+msgstr "Купити квиток"
+
+#: src/frontend/templates/buy_tickets.html:25
+msgid "Ваші місця:"
+msgstr "Ваші місця:"
+
+#: src/frontend/templates/buy_tickets.html:38
+msgid "Деталі оплати"
+msgstr "Деталі оплати"
+
+#: src/frontend/templates/buy_tickets.html:40
+msgid "Номер картки"
+msgstr "Номер картки"
+
+#: src/frontend/templates/buy_tickets.html:47
+msgid "Загальна сума:"
+msgstr "Загальна сума:"
+
+#: src/frontend/templates/buy_tickets.html:54
+msgid "ОПЛАТИТИ"
+msgstr "ОПЛАТИТИ"
+
+#: src/frontend/templates/cinema_pages.html:22
+msgid "3D"
+msgstr "3D"
+
+#: src/frontend/templates/cinema_pages.html:23
+msgid "2D"
+msgstr "2D"
+
+#: src/frontend/templates/cinema_pages.html:24
+msgid "IMAX"
+msgstr "IMAX"
+
+#: src/frontend/templates/cinema_pages.html:27
+msgid "Расписание сеансов"
+msgstr "Розклад сеансів"
+
+#: src/frontend/templates/cinema_pages.html:36
+msgid "Умови"
+msgstr "Умови"
+
+#: src/frontend/templates/cinema_pages.html:46
+#: src/frontend/templates/film_page.html:53
+msgid "Галерея"
+msgstr "Галерея"
+
+#: src/frontend/templates/main.html:42
+msgid "В прокаті"
+msgstr "В прокаті"
+
+#: src/frontend/templates/main.html:107
+msgid "Новости и Акции"
+msgstr "Новини та Акції"
+
+#: src/frontend/templates/schedule.html:9
+msgid "Фільтрація розкладу"
+msgstr "Фільтрація розкладу"
+
+#: src/frontend/templates/schedule.html:15
+msgid "Кинотеатр"
+msgstr "Кінотеатр"
+
+#: src/frontend/templates/schedule.html:17
+msgid "Оберіть Кінотеатр"
+msgstr "Оберіть Кінотеатр"
+
+#: src/frontend/templates/schedule.html:25
+msgid "Hall"
+msgstr "Hall"
+
+#: src/frontend/templates/schedule.html:39
+msgid "Film"
+msgstr "Film"
+
+#: src/frontend/templates/schedule.html:53
+msgid "Date"
+msgstr "Date"
+
+#: src/frontend/templates/schedule.html:88
+msgid "Застосувати"
+msgstr "Застосувати"
+
+#: src/frontend/templates/schedule.html:104
+msgid "Время"
+msgstr "Час"
+
+#: src/frontend/templates/schedule.html:105
+msgid "Фильм"
+msgstr "Фільм"
+
+#: src/frontend/templates/schedule.html:106
+msgid "Зал"
+msgstr "Зал"
+
+#: src/frontend/templates/schedule.html:107
+msgid "Цена"
+msgstr "Ціна"
+
+#: src/frontend/templates/schedule.html:108
+msgid "Купити Квитки"
+msgstr "Купити Квитки"
+
+#: src/frontend/templates/table_stock_pages.html:48
+msgid "Назад"
+msgstr "Назад"
+
+#: src/frontend/templates/table_stock_pages.html:58
+msgid "Вперед"
+msgstr "Вперед"
+
+#: src/frontend/templates/user_profile.html:19
+msgid "Створення"
+msgstr "Створення"
+
+#: src/frontend/templates/user_profile.html:33
+msgid "Форма для створення"
+msgstr "Форма для створення"
+
+#: src/frontend/templates/user_profile.html:39
+msgid "Имя"
+msgstr "Ім'я"
+
+#: src/frontend/templates/user_profile.html:54
+msgid "Фамилия"
+msgstr "Фамілія"
+
+#: src/frontend/templates/user_profile.html:69
+msgid "Псевдоним"
+msgstr "Псевдонім"
+
+#: src/frontend/templates/user_profile.html:74
+msgid "Телефон"
+msgstr "Телефон"
+
+#: src/frontend/templates/user_profile.html:86
+msgid "Дата рождения"
+msgstr "Дата народження"
+
+#: src/frontend/templates/user_profile.html:93
+msgid "Адресс"
+msgstr "Адресс"
+
+#: src/frontend/templates/user_profile.html:98
+msgid "Город"
+msgstr "Місто"
+
+#: src/frontend/templates/user_profile.html:104
+msgid "Номер карты"
+msgstr "Номер карти"
+
+#: src/frontend/templates/user_profile.html:113
+msgid "Зберегти"
+msgstr "Зберегти"

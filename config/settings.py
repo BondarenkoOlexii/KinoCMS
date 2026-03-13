@@ -145,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'uk-ua'
+LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'UTC'
 
@@ -207,7 +207,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 USE_I18N = True
 
 LANGUAGES = [
-    ('uk-ua', gettext_lazy('Ukrainian')),
+    ('uk', gettext_lazy('Ukrainian')),
     ('ru', gettext_lazy('Russian'))
 ]
 
