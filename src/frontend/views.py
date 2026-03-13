@@ -127,8 +127,6 @@ def main_page(request):
 
         translation.activate(user_language)
         request.LANGUAGE_CODE = translation.get_language()
-        if request.session.get(translation.LANGUAGE_SESSION_KEY) != user_language:
-            request.session[translation.LANGUAGE_SESSION_KEY] = user_language
     else:
         pass
 
