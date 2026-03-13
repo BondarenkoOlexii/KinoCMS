@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
     def setup_contact_page(self, img):
         contact_page, create = Contacts.objects.get_or_create(id=1,
-                                                              defaults={'id':1, 'name': 'Контакти', 'name_uk_ua':'Контакти', 'adress': 'ABC', 'coordinate': '123', 'image': img, 'image_type': 'logo'})
+                                                              defaults={'id':1, 'name': 'Контакти', 'name_uk':'Контакти', 'adress': 'ABC', 'coordinate': '123', 'image': img, 'image_type': 'logo'})
 
 
 
@@ -40,11 +40,11 @@ class Command(BaseCommand):
         created_pages = []
 
         pages = [
-            {'id': 2, 'name': 'О кинотеатре', 'name_uk_ua': 'Про Кінотеатр', 'description': 'ABC', 'type' : 'description', 'is_active':True},
-            {'id': 3, 'name': 'Реклама', 'name_uk_ua': 'Реклама', 'description': 'ABC', 'type': 'stock', 'is_active': True},
-            {'id': 4, 'name': 'VIP - зал', 'name_uk_ua': 'VIP - зал', 'description': 'ABC', 'type': 'vip', 'is_active': True},
-            {'id': 5, 'name': 'Детская комната', 'name_uk_ua': 'Дитяча кімната', 'description': 'ABC', 'type': 'child', 'is_active': True},
-            {'id': 6, 'name': 'Кафе - Бар', 'name_uk_ua': 'Кафе - Бар', 'description': 'ABC', 'type': 'cafe', 'is_active': True},
+            {'id': 2, 'name': 'О кинотеатре', 'name_uk': 'Про Кінотеатр', 'description': 'ABC', 'type' : 'description', 'is_active':True},
+            {'id': 3, 'name': 'Реклама', 'name_uk': 'Реклама', 'description': 'ABC', 'type': 'stock', 'is_active': True},
+            {'id': 4, 'name': 'VIP - зал', 'name_uk': 'VIP - зал', 'description': 'ABC', 'type': 'vip', 'is_active': True},
+            {'id': 5, 'name': 'Детская комната', 'name_uk': 'Дитяча кімната', 'description': 'ABC', 'type': 'child', 'is_active': True},
+            {'id': 6, 'name': 'Кафе - Бар', 'name_uk': 'Кафе - Бар', 'description': 'ABC', 'type': 'cafe', 'is_active': True},
         ]
 
         for page_data in pages:
@@ -81,7 +81,7 @@ class Command(BaseCommand):
     def setup_cinema(self):
         cinema_obj, _ = Cinema.objects.get_or_create(id=1,
                                                      defaults={
-                                                    "name": 'Кинотеатр', 'name_uk_ua': 'Кінотеатр', 'discription': 'ABC', 'condition': 'ABC'
+                                                    "name": 'Кинотеатр', 'name_uk': 'Кінотеатр', 'discription': 'ABC', 'condition': 'ABC'
                                                      })
         return cinema_obj
 
