@@ -197,18 +197,18 @@
         <ul
           class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"
         >
-          <li><a href="{% url 'afisha' 'afisha' %}" class="nav-link px-2 link-secondary">{% trans 'Афиша' %}</a></li>
-          <li><a href="{% url 'schedule_site' %}" class="nav-link px-2">{% trans 'Расписание' %}</a></li>
+          <li><a href="{% url 'afisha' 'afisha' %}" class="nav-link px-2 link-secondary">{% trans 'Афіша' %}</a></li>
+          <li><a href="{% url 'schedule_site' %}" class="nav-link px-2">{% trans 'Розклад' %}</a></li>
           <li><a href="{% url 'afisha' 'soon' %}" class="nav-link px-2">{% trans 'Скоро' %}</a></li>
-          <li><a href="{% url 'table_cinema_page' %}" class="nav-link px-2">{% trans 'Кинотеатри' %}</a></li>
-          <li><a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link px-2">{% trans 'Акции' %}</a></li>
+          <li><a href="{% url 'table_cinema_page' %}" class="nav-link px-2">{% trans 'Кінотеатри' %}</a></li>
+          <li><a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link px-2">{% trans 'Акції' %}</a></li>
 
           <li class="nav-item dropdown">
             <a href="#" class="nav-link px-2 dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             О кинотеатре
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a href="{% url 'table_stock_pages' 'news' %}" class="dropdown-item">{% trans 'Новости' %}</a></li>
+              <li><a href="{% url 'table_stock_pages' 'news' %}" class="dropdown-item">{% trans 'Новини' %}</a></li>
               <li><a class="dropdown-item" href="{% url 'pages' 'stock'%}">{% trans 'Реклама' %}</a></li>
               <li><a class="dropdown-item" href="{% url 'pages' 'cafe'%}">{% trans 'Кафе' %}</a></li>
               <li><a class="dropdown-item" href="{% url 'pages' 'vip'%}">{% trans 'VIP-зал' %}</a></li>
@@ -259,7 +259,7 @@
               </button>
             </a>
               {% if user.is_superuser %}
-                <a href="adminpanel/">
+                <a href="/adminpanel/">
                   <button type="button" class="btn btn-outline-primary me-2">
                     AdminPanel
                   </button>
@@ -333,29 +333,29 @@
         <div class="col mb-3">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Афиша' %}</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Афіша' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Расписание' %}</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Розклад' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Скоро в прокате' %}</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Скоро в прокаті' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Кинотеатри' %}</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Кінотеатри' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link p-0 text-body-secondary">{% trans 'Акции' %}</a>
+              <a href="{% url 'table_stock_pages' 'stock' %}" class="nav-link p-0 text-body-secondary">{% trans 'Акції' %}</a>
             </li>
           </ul>
         </div>
         <div class="col mb-3">
           <ul class="nav flex-column">
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'О кинотеатре' %}</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Про кінотеатр' %}</a>
             </li>
             <li class="nav-item mb-2">
-              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Новости' %}</a>
+              <a href="#" class="nav-link p-0 text-body-secondary">{% trans 'Новини' %}</a>
             </li>
             <li class="nav-item mb-2">
               <a href="{% url 'pages' 'stock'%}" class="nav-link p-0 text-body-secondary">{% trans 'Реклама' %}</a>

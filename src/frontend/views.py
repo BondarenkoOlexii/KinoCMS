@@ -4,7 +4,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -122,6 +122,15 @@ def change_password(request, pk):
 
 def main_page(request):
     today = timezone.now().date()
+    if request.user.is_authenticated:
+        user_language = request.user.language
+
+        translation.activate(user_language)
+        request.LANGUAGE_CODE = translation.get_language()
+        if request.session.get(translation.LANGUAGE_SESSION_KEY) != user_language:
+            request.session[translation.LANGUAGE_SESSION_KEY] = user_language
+    else:
+        pass
 
     afisha_items = Film.objects.filter(start_time__lte=today, end_time__gte=today)
     afisha_items_ids = afisha_items.values_list('id', flat=True)

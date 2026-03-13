@@ -19,8 +19,8 @@ class FilmForm(forms.ModelForm):
 
             'trailer': forms.URLInput(attrs={'class': 'form-control'}),
             'type': forms.RadioSelect(choices=FilmChoises),
-            'start_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}),
-            'end_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}),
+            'start_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}, format='%Y-%m-%d'),
+            'end_time': forms.DateInput(attrs={'type': 'date', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'}, format='%Y-%m-%d'),
             'duration': forms.TimeInput(attrs={'type': 'time', 'class': 'col-sm-6"', 'style': 'color: #6c757d;'})
         }
 
