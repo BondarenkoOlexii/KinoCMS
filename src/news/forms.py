@@ -7,15 +7,15 @@ class NewsForm(forms.ModelForm):
 
     class Meta:
         model = NewsStockModel
-        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'trailer', 'is_active']
+        fields = ['name_uk', 'name_ru', 'description_uk', 'description_ru', 'trailer', 'is_active']
 
         exclude = ('seoblock', 'image', )
 
         widgets = {
-            'name_uk_ua': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+            'name_uk': forms.TextInput(attrs={'class': 'col-sm-6"'}),
             'name_ru': forms.TextInput(attrs={'class': 'col-sm-6"'}),
 
-            'description_uk_ua': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'description_uk': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'description_ru': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
 
             'trailer': forms.URLInput(attrs={'class': 'form-control'}),

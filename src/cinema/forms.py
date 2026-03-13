@@ -6,12 +6,12 @@ from src.adminpanel.models.FilmChoise import FilmChoises
 class FilmForm(forms.ModelForm):
     class Meta:
         model = Film
-        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'trailer', 'type', 'start_time', 'end_time', 'duration']
+        fields = ['name_uk', 'name_ru', 'description_uk', 'description_ru', 'trailer', 'type', 'start_time', 'end_time', 'duration']
 
         exclude = ('seoblock', 'image', )
 
         widgets = {
-            'name_uk_ua': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+            'name_uk': forms.TextInput(attrs={'class': 'col-sm-6"'}),
             'name_ru': forms.TextInput(attrs={'class': 'col-sm-6"'}),
 
             'description_uk_ua': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
@@ -58,18 +58,18 @@ FilmImagesFormSet = inlineformset_factory(Film, FilmThourghtImage, ImageForm, ex
 class CinemaForm(forms.ModelForm):
     class Meta:
         model = Cinema
-        fields = ['name_uk_ua', 'name_ru', 'discription_uk_ua', 'discription_ru', 'condition_uk_ua', 'condition_ru']
+        fields = ['name_uk', 'name_ru', 'discription_uk', 'discription_ru', 'condition_uk', 'condition_ru']
 
         exclude = ('seoblock', 'image', )
 
         widgets = {
-            'name_uk_ua': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+            'name_uk': forms.TextInput(attrs={'class': 'col-sm-6"'}),
             'name_ru': forms.TextInput(attrs={'class': 'col-sm-6"'}),
 
-            'discription_uk_ua': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'discription_uk': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'discription_ru': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
 
-            'condition_uk_ua': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'condition_uk': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'condition_ru': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
@@ -92,15 +92,15 @@ CinemaImagesFormSet = inlineformset_factory(Cinema, CinemaThourghtImage, ImageFo
 class HallForm(forms.ModelForm):
     class Meta:
         model = Hall
-        fields = ['name_uk_ua', 'name_ru', 'description_uk_ua', 'description_ru', 'json_file']
+        fields = ['name_uk', 'name_ru', 'description_uk', 'description_ru', 'json_file']
 
         exclude = ('seoblock', 'image', )
 
         widgets = {
-            'name_uk_ua': forms.TextInput(attrs={'class': 'col-sm-6"'}),
+            'name_uk': forms.TextInput(attrs={'class': 'col-sm-6"'}),
             'name_ru': forms.TextInput(attrs={'class': 'col-sm-6"'}),
 
-            'description_uk_ua': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'description_uk': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'description_ru': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
