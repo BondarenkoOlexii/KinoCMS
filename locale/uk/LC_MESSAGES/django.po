@@ -81,6 +81,9 @@ msgstr "Афіша"
 msgid "Розклад"
 msgstr "Розклад"
 
+msgid "О кинотеатре"
+msgstr "Про кінотеатр"
+
 #: src/frontend/templates/base.html:202 src/frontend/templates/main.html:79
 msgid "Скоро"
 msgstr "Скоро"
@@ -200,7 +203,7 @@ msgid "В прокаті"
 msgstr "В прокаті"
 
 #: src/frontend/templates/main.html:107
-msgid "Новости и Акции"
+msgid "Новини та Акції"
 msgstr "Новини та Акції"
 
 #: src/frontend/templates/schedule.html:9
