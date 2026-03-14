@@ -8,115 +8,130 @@
 
 
 {% block content %}
-
-
     <link rel="stylesheet" href="{% static 'dist/css/news.css' %}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cancel" />
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="mb-0">{% trans 'Створення' %}</h3>
+                    <h3 class="mb-0">{% trans 'Редагування' %}</h3>
                 </div>
             </div>
         </div>
     </div>
-    <div class="app-content">
-        <div class="container-fluid">
-            <div class="row g-4 justify-content-center"> <div class="col-md-8 col-lg-7">
-                    <div class="card card-primary card-outline mb-4">
-                        <div class="card-body">
-                            <form class="needs-validation django-upload-form" novalidate method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="card-header text-center">
-                                    <div class="py-3">
-                                        <h2 class="card-title w-100" >{% trans 'Форма для створення' %}</h2>
-                                    </div>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{% trans 'Помилка!' %}</strong> {% trans 'Будь ласка, перевірте правильність заповнення полів.' %}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h3 class="mb-0">{% trans 'Редагування профілю' %}</h3>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            {% csrf_token %}
+
+                            <div class="row g-4">
+                                {# Ім'я та Мова #}
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans "Ім'я" %}</label>
+                                    {{ form.first_name }}
+                                    {{ form.first_name.errors }}
                                 </div>
-
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Имя' %}</label>
-                                        {{ form.first_name }}
-                                    </div>
-
+                                <div class="col-sm-6">
                                     <div class="radio-group">
-                                    {% for radio in form.language %}
-                                            <label class="container">
-                                              {{radio.tag}}<span class="checkmark"></span> <span class="label-text"> {{radio.choice_label}}</span>
-                                            </label>
-                                    {% endfor %}
+                                        {% for radio in form.language %}
+                                            <div class="form-check form-check-inline">
+                                                {{ radio.tag }}
+                                                <label class="form-check-label">{{ radio.choice_label }}</label>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
 
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Фамилия' %}</label>
-                                        {{ form.last_name }}
-                                    </div>
-
+                                {# Прізвище та Стать #}
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Прізвище' %}</label>
+                                    {{ form.last_name }}
+                                    {{ form.last_name.errors }}
+                                </div>
+                                <div class="col-sm-6">
                                     <div class="radio-group">
-                                    {% for radio in form.sex %}
-                                            <label class="container">
-                                                {{radio.tag}}<span class="checkmark"></span> <span class="label-text"> {{radio.choice_label}}</span>
-                                            </label>
-                                    {% endfor %}
+                                        {% for radio in form.sex %}
+                                            <div class="form-check form-check-inline">
+                                                {{ radio.tag }}
+                                                <label class="form-check-label">{{ radio.choice_label }}</label>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
 
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Псевдоним' %}</label>
-                                        {{ form.username }}
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Телефон' %}</label>
-                                        {{ form.phone_number }}
-                                    </div>
+                                {# Псевдонім та Телефон #}
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Псевдонім' %}</label>
+                                    {{ form.username }}
+                                    {{ form.username.errors }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Телефон' %}</label>
+                                    {{ form.phone_number }}
+                                    {{ form.phone_number.errors }}
                                 </div>
 
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">E-mail</label>
-                                        {{ form.email }}
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Дата рождения' %}</label>
-                                        {{ form.date_of_birth }}
-                                    </div>
+                                {# Email та Дата народження #}
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">E-mail</label>
+                                    {{ form.email }}
+                                    {{ form.email.errors }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Дата народження' %}</label>
+                                    {{ form.date_of_birth }}
+                                    {{ form.date_of_birth.errors }}
                                 </div>
 
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Адресс' %}</label>
-                                        {{ form.real_adress }}
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Город' %}</label>
-                                            {{ form.city }}
-                                    </div>
+                                {# Адреса та Місто #}
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Адреса' %}</label>
+                                    {{ form.real_adress }}
+                                    {{ form.real_adress.errors }}
                                 </div>
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label class="form-label">{% trans 'Номер карты' %}</label>
-                                        {{ form.credit_card }}
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <a href="{% url 'change_password' item.id %}">Change Password</a>
-                                    </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Місто' %}</label>
+                                    {{ form.city }}
+                                    {{ form.city.errors }}
                                 </div>
 
-
-                                <button class="w-100 btn btn-primary btn-lg" type="submit" style="margin-top: 20px">{% trans 'Зберегти' %}</button>
-                            </form>
+                                {# Карта та Пароль #}
+                                <div class="col-sm-6">
+                                    <label class="form-label font-weight-bold">{% trans 'Номер карти' %}</label>
+                                    {{ form.credit_card }}
+                                    {{ form.credit_card.errors }}
+                                </div>
+                                <div class="col-sm-6 d-flex align-items-end">
+                                    <a href="{% url 'change_password' user.id %}" class="btn btn-outline-secondary w-100">
+                                        <i class="bi bi-key"></i> {% trans 'Змінити пароль' %}
+                                    </a>
+                                </div>
                             </div>
+
+                            <hr class="my-4">
+
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">
+                                {% trans 'Зберегти зміни' %}
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
-
 {% endblock %}

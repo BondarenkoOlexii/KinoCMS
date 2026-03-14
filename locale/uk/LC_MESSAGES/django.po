@@ -263,12 +263,12 @@ msgid "Вперед"
 msgstr "Вперед"
 
 #: src/frontend/templates/user_profile.html:19
-msgid "Створення"
-msgstr "Створення"
+msgid "Редагування"
+msgstr "Редагування"
 
 #: src/frontend/templates/user_profile.html:33
-msgid "Форма для створення"
-msgstr "Форма для створення"
+msgid "Редагування профілю"
+msgstr "Редагування профілю"
 
 #: src/frontend/templates/user_profile.html:39
 msgid "Имя"
