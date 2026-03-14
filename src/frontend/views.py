@@ -4,7 +4,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone, translation
+from django.utils import timezone
+from django.urls import translate_url
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -98,10 +99,12 @@ def profile(request, pk):
         form = UserForm(request.POST, instance=item)
         if form.is_valid():
             user = form.save()
-            request.session['_language'] = user.language # Записуємо в сесію зміну мови
-            translation.activate(user.language) # активуємо мову
 
-            response = redirect('user_profile', pk=user.id)
+            next_ulr = request.path
+
+            new_url = translate_url(next_ulr, user.language)
+
+            response = redirect(new_url)
 
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user.language) #Змінюємо кукі
         else:
