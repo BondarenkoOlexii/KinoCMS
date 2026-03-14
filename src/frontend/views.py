@@ -99,6 +99,8 @@ def profile(request, pk):
         if form.is_valid():
             user = form.save()
             request.session['_language'] = user.language
+            translation.activate(user.language)
+
         else:
             print(f"Ошибка UserForm:\n{form.errors.as_text()}")
     else:
