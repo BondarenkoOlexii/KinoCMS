@@ -97,7 +97,8 @@ def profile(request, pk):
     if request.method == 'POST':
         form = UserForm(request.POST, instance=item)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            request.session[translation.LANGUAGE_SESSION_KEY] = user.language
         else:
             print(f"Ошибка UserForm:\n{form.errors.as_text()}")
     else:
@@ -122,13 +123,6 @@ def change_password(request, pk):
 
 def main_page(request):
     today = timezone.now().date()
-    if request.user.is_authenticated:
-        user_language = request.user.language
-
-        translation.activate(user_language)
-        request.LANGUAGE_CODE = translation.get_language()
-    else:
-        pass
 
     afisha_items = Film.objects.filter(start_time__lte=today, end_time__gte=today)
     afisha_items_ids = afisha_items.values_list('id', flat=True)
