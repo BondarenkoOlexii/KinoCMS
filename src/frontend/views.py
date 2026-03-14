@@ -1,5 +1,6 @@
 import json
 
+from allauth.socialaccount.providers.mediawiki.provider import settings
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -98,9 +99,12 @@ def profile(request, pk):
         form = UserForm(request.POST, instance=item)
         if form.is_valid():
             user = form.save()
-            request.session['_language'] = user.language
-            translation.activate(user.language)
+            request.session['_language'] = user.language # Записуємо в сесію зміну мови
+            translation.activate(user.language) # активуємо мову
 
+            response = redirect('user_profile', pk=user.id)
+
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user.language) #Змінюємо кукі
         else:
             print(f"Ошибка UserForm:\n{form.errors.as_text()}")
     else:
