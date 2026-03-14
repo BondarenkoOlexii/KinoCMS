@@ -1,6 +1,5 @@
 import json
-
-from allauth.socialaccount.providers.mediawiki.provider import settings
+from config import settings
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
