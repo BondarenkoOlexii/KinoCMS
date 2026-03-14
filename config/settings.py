@@ -151,6 +151,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+
 USE_TZ = True
 
 ACCOUNT_ADAPTER = 'src.authorization.adapters.AccountAdapter'

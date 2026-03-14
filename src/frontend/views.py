@@ -107,6 +107,8 @@ def profile(request, pk):
             response = redirect(new_url)
 
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user.language) #Змінюємо кукі
+
+            return response
         else:
             print(f"Ошибка UserForm:\n{form.errors.as_text()}")
     else:
