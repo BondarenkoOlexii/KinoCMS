@@ -100,11 +100,20 @@ def profile(request, pk):
         if form.is_valid():
             user = form.save()
 
-            next_ulr = request.path
+            print(f"--- DEBUG START ---")
+            print(f"User language from DB: '{user.language}'")
+            next_url = request.path
 
-            new_url = translate_url(next_ulr, user.language)
+            if user.language == 'ru':
+                new_url = next_url.replace('/uk/', '/ru/')
+            else:
+                new_url = next_url.replace('/ru/', '/uk/')
 
             response = redirect(new_url)
+
+            print(f"Redirecting to: {new_url}")
+            print(f"--- DEBUG END ---")
+
 
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user.language) #Змінюємо кукі
 
