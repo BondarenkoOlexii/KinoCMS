@@ -6,4 +6,4 @@ class FrontendConfig(AppConfig):
     name = 'src.frontend'
 
     def ready(self):
-        import src.frontend.signals
+        from src.frontend import signals
