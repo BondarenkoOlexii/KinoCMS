@@ -6,4 +6,4 @@ class AdminpanelConfig(AppConfig):
     name = 'src.adminpanel'
 
     def ready(self):
-        import src.adminpanel.signals
+        from src.adminpanel import signals
